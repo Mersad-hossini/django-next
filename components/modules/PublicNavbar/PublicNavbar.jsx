@@ -1,0 +1,131 @@
+import React, { useState } from "react";
+import {
+  ShoppingBagIcon,
+  MagnifyingGlassIcon,
+} from "@heroicons/react/24/outline";
+import UserBoxNav from "../UserBoxNav/UserBoxNav";
+import UserCart from "../UserCart/UserCart";
+import Link from "next/link";
+import { useRouter } from "next/router";
+
+function PublicNavbar() {
+  const [isShopingCartOpen, setIsShopingCartOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
+  const router = useRouter()
+
+  const shopingCartOpenHandler = () => {
+    setIsShopingCartOpen((prevState) => !prevState);
+  };
+
+  const searchHandler = (e) => {
+    e.preventDefault();
+    if (!searchValue.trim()) return;
+    router.push(`/search?query=${encodeURIComponent(searchValue)}`);
+  };
+
+  return (
+    <header className="flex items-center justify-between bg-darker py-4.5 sm:py-5 px-4 sm:px-8">
+      {/* Left Icons(shoping/light)  */}
+      <div className="flex-center gap-x-5">
+        <UserBoxNav />
+        {/* Shopping Cart Icon Start */}
+        <div className="relative">
+          {/* Trigger Button */}
+          <div
+            className="size-13 flex-center rounded-full bg-light-gray text-slate-500 cursor-pointer"
+            onClick={shopingCartOpenHandler}
+          >
+            <ShoppingBagIcon className="size-5.5 sm:size-6 text-white" />
+          </div>
+
+          {/* Dropdown - Outside the clickable div */}
+          <UserCart
+            isShopingCartOpen={isShopingCartOpen}
+            onClose={() => setIsShopingCartOpen(false)}
+          />
+        </div>
+        {/* Shopping Cart Icon End */}
+
+        {/* Search Box Start */}
+        <div className="relative group" id="searchbox">
+          <form className="xl:block">
+            <label className="relative h-13 block">
+              <input
+                className="bg-gray-100 outline-0 w-full text-slate-500 dark:bg-white/5 dark:text-white text-sm font-danaMedium rounded-full pr-4 pl-12 3xl:w-80 h-full"
+                type="text"
+                autoComplete="off"
+                placeholder="Search..."
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
+              />
+              <button
+                className="absolute left-4 top-0 bottom-0 w-6 h-6 my-auto text-slate-500 dark:text-white"
+                type="submit"
+                onClick={searchHandler}
+              >
+                <MagnifyingGlassIcon className="w-6 h-6 cursor-pointer" />
+              </button>
+            </label>
+          </form>
+        </div>
+      </div>
+      {/* Search Box End */}
+
+      {/* Right Side  */}
+      <div className="flex-center hidden xs:flex">
+        <Link
+          href="/"
+          className="flex items-center gap-x-2 xl:pl-6 xl:ml-6 xl:border-l border-l-neutral-200 dark:border-l-white/10"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="mx-auto h-11 md:h-12 lg:h-14 shrink-0"
+            viewBox="0 0 1020 769"
+          >
+            <polygon
+              fill="#006537"
+              points="484.8124 560.0603 302.0609 655.3444 238.4124 617.2945 238.4124 462.4662 484.8124 560.0603"
+            ></polygon>
+            <polygon
+              fill="#006869"
+              points="972.5712 207.8379 484.6647 462.7753 10.7595 275.1003 498.7369 20.1923 972.5712 207.8379"
+            ></polygon>
+            <line
+              fill="#1a3d3d"
+              x1="929.7475"
+              y1="307.461"
+              x2="929.6513"
+              y2="307.6423"
+            ></line>
+            <polygon
+              fill="#006869"
+              points="1010.2748 576.281 951.4402 632.8758 896.4012 572.396 934.1612 536.0524 934.0697 227.9393 972.5606 207.8255 972.3776 534.6349 1010.2748 576.281"
+            ></polygon>
+            <polygon
+              fill="#00524c"
+              points="972.5669 246.8789 972.5027 335.57 934.0989 357.7689 934.0747 266.9936 972.5669 246.8789"
+            ></polygon>
+            <polygon
+              fill="#004b26"
+              points="478.5395 760.6504 238.4571 617.3325 238.4571 604.062 484.6701 560.0356 489.1606 570.333 478.5395 760.6504"
+            ></polygon>
+            <polygon
+              fill="#00524c"
+              points="585.898 409.8693 484.472 463.0223 10.7549 275.1038 498.7374 20.1923 585.898 409.8693"
+            ></polygon>
+            <polygon
+              fill="#00322d"
+              points="972.5669 207.8394 972.5027 255.9601 934.0989 300.7406 934.0747 227.9542 972.5669 207.8394"
+            ></polygon>
+            <polygon
+              fill="#1eb35b"
+              points="816.6519 386.7124 816.6519 527.0091 478.1841 760.5632 302.0575 655.3487 816.6519 386.7124"
+            ></polygon>
+          </svg>
+        </Link>
+      </div>
+    </header>
+  );
+}
+
+export default PublicNavbar;

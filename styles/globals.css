@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+@theme {
+  --color-darker: rgb(36 42 56/1);
+  --color-light-gray: #ffffff0d;
+  --color-background-dark: rgb(17 24 39/1);
+
+  --breakpoint-xs: 400px;
+  --breakpoint-ms: 500px
+}
+
+@layer components {
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
+}
