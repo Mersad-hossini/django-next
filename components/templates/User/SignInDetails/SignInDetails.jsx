@@ -45,7 +45,7 @@ function SignInDetails() {
 
       const userData = await res.json();
       if (res.status === 200) {
-        storeTokens(userData.access, userData.refresh); // ✅ فراخوانی درست تابع
+        storeTokens(userData.access, userData.refresh);
 
         swal({
           title: "You have successfully logged in",
@@ -53,7 +53,7 @@ function SignInDetails() {
           button: "Ok",
         });
 
-        // router.replace("/");
+        router.replace("/");
       } else {
         swal({
           title: userData.message || "Login failed",

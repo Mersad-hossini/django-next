@@ -1,31 +1,25 @@
 import React from "react";
 import ResetPassword from "@/components/templates/User/ResetPassword/ResetPassword";
+import CheckIfLoggedIn from "@/utils/auth/checkIfLoggedIn";
+import { useRouter } from "next/router";
 
-function ResetPasswordPage({ resetPasswordCode }) {
-  return (
-    <>
-      <ResetPassword resetCode={resetPasswordCode} />
-    </>
-  );
-}
+function ResetPasswordPage() {
+  const router = useRouter();
+  const { code: resetPasswordCode } = router.query;
 
-export const getServerSideProps = async (context) => {
-  const { code } = context.query;
+  // تا زمانی که query هنوز آماده نیست، هیچ چیزی نمایش نده
+  if (!router.isReady) return null;
 
-  if (!code) {
-    return {
-      redirect: {
-        destination: "/user/forget-password",
-        permanent: false,
-      },
-    };
+  if (!resetPasswordCode) {
+    router.replace("/user/forget-password");
+    return null;
   }
 
-  return {
-    props: {
-      resetPasswordCode: code,
-    },
-  };
-};
+  return (
+    <CheckIfLoggedIn redirectTo="/my-account">
+      <ResetPassword resetCode={resetPasswordCode} />
+    </CheckIfLoggedIn>
+  );
+}
 
 export default ResetPasswordPage;

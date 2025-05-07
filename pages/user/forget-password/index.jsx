@@ -1,17 +1,15 @@
 import React from "react";
-import ForgetPassword from "@/components/templates/User/ForgetPassword/ForgetPassword"
-import { checkIfLoggedIn } from "@/utils/auth/checkIfLoggedIn";
+import ForgetPassword from "@/components/templates/User/ForgetPassword/ForgetPassword";
+import CheckIfLoggedIn from "@/utils/auth/checkIfLoggedIn";
 
 function Forgetpassword() {
   return (
     <>
-      <ForgetPassword />
+      <CheckIfLoggedIn redirectTo="/my-account">
+        <ForgetPassword />
+      </CheckIfLoggedIn>
     </>
   );
 }
-
-// export const getServerSideProps = async (context) => {
-//   return checkIfLoggedIn(context);
-// };
 
 export default Forgetpassword;

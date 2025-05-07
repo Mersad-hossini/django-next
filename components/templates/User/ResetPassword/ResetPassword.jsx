@@ -4,18 +4,30 @@ import InputForm from "@/components/modules/InputForm/InputForm";
 import { LockClosedIcon } from "@heroicons/react/24/outline";
 import swal from "sweetalert";
 import { useRouter } from "next/router";
+import { useForm } from "react-hook-form";
+import passwordSchema from "@/validations/resetPassword";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 function ResetPassword({ resetCode }) {
-  const [password, setPassword] = useState("");
   const [cooldown, setCooldown] = useState(0);
   const router = useRouter();
 
-  const handleResetPassword = async (e) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm({
+    mode: "onChange", 
+    defaultValues: {
+      password: "",
+    },
+    resolver: yupResolver(passwordSchema),
+  });
 
+  const handleResetPassword = async (data) => {
     const newPassword = {
-      password,
-      password_confirm: password,
+      password: data?.password,
+      password_confirm: data?.password,
     };
 
     try {
@@ -30,14 +42,13 @@ function ResetPassword({ resetCode }) {
         }
       );
 
-      const data = await res.json();
+      const userData = await res.json();      
 
       if (res.ok) {
         swal("Password changed successfully.", "", "success");
-        setPassword("");
         router.replace("/user/signin");
       } else {
-        swal("Error", data.message || "Somethin went wrong!", "error");
+        swal("Error", userData.error || "Somethin went wrong!", "error");
       }
     } catch (error) {
       swal(
@@ -66,21 +77,25 @@ function ResetPassword({ resetCode }) {
             <FormTitle title="New password" />
           </div>
 
-          <div className="flex-center flex-col">
+          <form
+            onSubmit={handleSubmit(handleResetPassword)}
+            className="flex-center flex-col"
+          >
             <InputForm
               type="password"
-              placeholder="New Password"
+              placeholder="Password"
               icon={LockClosedIcon}
-              value={password}
-              onChangeHandler={(e) => setPassword(e.target.value)}
+              {...register("password")}
             />
+            {errors.password && (
+              <p className="text-red-500 mb-3">{errors.password.message}</p>
+            )}
 
             <div className="mt-7 w-full text-center">
               <button
-                onClick={handleResetPassword}
-                disabled={!password || cooldown > 0}
+                disabled={!isValid || cooldown > 0}
                 className={`rounded-sm text-white py-1 w-[60%] transition-colors ${
-                  !password || cooldown > 0
+                  !isValid || cooldown > 0
                     ? "bg-gray-400 cursor-not-allowed"
                     : "bg-green-500 hover:bg-green-600 cursor-pointer"
                 }`}
@@ -88,7 +103,7 @@ function ResetPassword({ resetCode }) {
                 {cooldown > 0 ? `Wait ${cooldown}s` : "Ok"}
               </button>
             </div>
-          </div>
+          </form>
         </div>
 
         {/* right side  */}

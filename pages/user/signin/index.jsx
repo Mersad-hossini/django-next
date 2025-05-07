@@ -1,17 +1,10 @@
+import CheckIfLoggedIn from "@/utils/auth/checkIfLoggedIn";
 import SignInDetails from "@/components/templates/User/SignInDetails/SignInDetails";
-import React from "react";
 
-function SignIn() {
-  
+export default function SignIn() {
   return (
-    <>
+    <CheckIfLoggedIn redirectTo="/my-account">
       <SignInDetails />
-    </>
+    </CheckIfLoggedIn>
   );
 }
-
-// export const getServerSideProps = async (context) => {
-//   return checkIfLoggedIn(context);
-// };
-
-export default SignIn;
