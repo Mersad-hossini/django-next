@@ -1,22 +1,16 @@
-import React, { useEffect } from "react";
+import React from "react";
 import UserLayout from "@/components/templates/UserPanle/UserLayout/UserLayout";
 import UserIndex from "@/components/templates/UserPanle/UserIndex/UserIndex";
-// import { requireLogin } from "@/utils/auth/requireLogin";
+import AuthGuard from "@/hocks/authGuard/authGuard";
 
 function Index() {
   return (
-    <UserLayout>
-      <UserIndex />
-    </UserLayout>
+    <AuthGuard requireAuth={true}>
+      <UserLayout>
+        <UserIndex />
+      </UserLayout>
+    </AuthGuard>
   );
-}
-
-// export const getServerSideProps = requireLogin;
-export const getServerSideProps = (context) => {
-  console.log(context);
-  return {
-    props: {}
-  }
 }
 
 export default Index;

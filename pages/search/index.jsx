@@ -1,12 +1,12 @@
-import SearchLayOut from '@/components/templates/Search/SearchLayOut'
-import React from 'react'
+import SearchLayOut from "@/components/templates/Search/SearchLayOut";
+import React from "react";
 
 function Search() {
   return (
     <>
-        <SearchLayOut />
+      <SearchLayOut />
     </>
-  )
+  );
 }
 
-export default Search
+export default Search;

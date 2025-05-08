@@ -9,28 +9,31 @@ import {
   InformationCircleIcon,
 } from "@heroicons/react/24/outline";
 import swal from "sweetalert";
+import productSchema from "@/validations/product";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
 
 function AddProductForm({ onProductAdded }) {
-  const [productName, setProductName] = useState("");
-  const [urlName, setUrlName] = useState("");
-  const [price, setPrice] = useState("");
-  const [image, setImage] = useState("");
-  const [category, setCategory] = useState("");
-  const [description, setDescription] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      productName: "",
+      urlName: "",
+      price: "",
+      image: "",
+      category: "",
+      description: "",
+    },
+    resolver: yupResolver(productSchema),
+  });
 
-  const addNewProductHandler = async (e) => {
-    e.preventDefault();
-    const productInfos = {
-      productname: productName,
-      url: `/${urlName}`,
-      price: price,
-      image: `/images/${image}`,
-      category,
-      description,
-    };
-
-    const res = await fetch("/api/product/product-data", {
+  const addNewProductHandler = async (productInfos) => {    
+    const res = await fetch("https://api.mander.ir/product/products/", {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
@@ -38,13 +41,6 @@ function AddProductForm({ onProductAdded }) {
     });
     const data = await res.json();
     if (res.status === 201) {
-      setProductName("");
-      setUrlName("");
-      setPrice("");
-      setImage("");
-      setCategory("");
-      setDescription("");
-
       swal({
         title: "Product Successfully Created",
         icon: "success",
@@ -62,35 +58,35 @@ function AddProductForm({ onProductAdded }) {
 
   return (
     <div className="max-w-[1332px] w-full px-4 md:px-8 pb-5 md:pb-8 mx-auto">
-      <form action="#" onSubmit={addNewProductHandler}>
+      <form onSubmit={handleSubmit(addNewProductHandler)}>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 md:gap-6 md:pr-5 mt-5">
           <PanelInput
-            name="Product name"
             type="text"
+            placeholder="title"
             icon={ClipboardIcon}
-            value={productName}
-            onChangeHandler={(e) => setProductName(e.target.value)}
+            error={errors.productName?.message}
+            {...register("productName")}
           />
           <PanelInput
-            name="Url"
+            placeholder="Url"
             type="text"
             icon={GlobeAsiaAustraliaIcon}
-            value={urlName}
-            onChangeHandler={(e) => setUrlName(e.target.value)}
+            error={errors.urlName?.message}
+            {...register("urlName")}
           />
           <PanelInput
-            name="Price"
+            placeholder="price"
             type="text"
+            error={errors.price?.message}
             icon={PrinterIcon}
-            value={price}
-            onChangeHandler={(e) => setPrice(e.target.value)}
+            {...register("price")}
           />
           <PanelInput
-            name="Image"
             type="text"
             icon={InformationCircleIcon}
-            value={image}
-            onChangeHandler={(e) => setImage(e.target.value)}
+            placeholder="image"
+            error={errors.image?.message}
+            {...register("image")}
           />
           <div>
             <label
@@ -102,14 +98,18 @@ function AddProductForm({ onProductAdded }) {
             <div id="category" className="relative">
               <select
                 className="w-full placeholder:text-gray-400 outline-0 text-gray-900 dark:text-white bg-darker text-sm py-3.5 pr-3.5 pl-13 rounded opacity-60"
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
+                {...register("category")}
               >
                 <option value="-1">-- Select a Category --</option>
                 <option value="clothe">clothe</option>
                 <option value="digital">digital</option>
                 <option value="food">food</option>
               </select>
+              {errors.category && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.category?.message}
+                </p>
+              )}
               <TagIcon className="absolute left-3.5 top-0 bottom-0 my-auto size-6 text-slate-500 dark:text-gray-400" />
             </div>
           </div>
@@ -122,12 +122,17 @@ function AddProductForm({ onProductAdded }) {
             </label>
             <div id="description" className="relative">
               <textarea
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                placeholder="description"
+                {...register("description")}
                 rows="8"
                 cols="8"
                 className="w-full placeholder:text-gray-400 outline-0 text-gray-900 dark:text-white bg-darker text-sm py-3.5 pr-3.5 pl-3 rounded opacity-60"
               ></textarea>
+              {errors.description && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.description?.message}
+                </p>
+              )}
             </div>
           </div>
         </div>

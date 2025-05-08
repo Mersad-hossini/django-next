@@ -14,9 +14,13 @@ function UserTable() {
   }, []);
 
   const getAllUsers = async () => {
-    const res = await fetch("/api/user/getAll");
+    const res = await fetch("https://api.mander.ir/admin-panel/users", {
+      method: "GET",
+      credentials: "include",
+    });
+
     const users = await res.json();
-    setUsers(users.data);
+    setUsers(users.results);
   };
 
   const removeUser = async (id) => {
@@ -30,17 +34,26 @@ function UserTable() {
 
     if (confirm) {
       try {
-        const res = await fetch(`/api/user/${id}`, {
-          method: "DELETE",
-        });
+        const res = await fetch(
+          `https://api.mander.ir/admin-panel/users/${id}`,
+          {
+            method: "DELETE",
+            credentials: "include",
+          }
+        );
 
-        const result = await res.json();
+        const text = await res.text();
+        const result = text ? JSON.parse(text) : {};
 
         if (res.ok) {
-          swal("Deleted!", result.message, "success");
+          swal(
+            "Deleted!",
+            result.message || "User deleted successfully",
+            "success"
+          );
           getAllUsers();
         } else {
-          swal("Error", result.message, "error");
+          swal("Error", result.message || "Something went wrong", "error");
         }
       } catch (err) {
         console.error(err);
@@ -68,6 +81,9 @@ function UserTable() {
               Role
             </th>
             <th className="p-4 text-left text-sm font-medium text-white">
+              Account verification
+            </th>
+            <th className="p-4 text-left text-sm font-medium text-white">
               Joined At
             </th>
             <th className="p-4 text-left text-sm font-medium text-white">
@@ -77,7 +93,7 @@ function UserTable() {
         </thead>
         <tbody className="whitespace-nowrap">
           {users?.map((user, index) => (
-            <tr key={user._id} className="even:bg-blue-50">
+            <tr key={user.id} className="even:bg-blue-50">
               <td className="p-4 text-[15px] text-slate-600 font-medium">
                 {index + 1}
               </td>
@@ -92,34 +108,47 @@ function UserTable() {
                 {user.phone ? user.phone : "—"}
               </td>
               <td className="p-4 text-sm text-slate-600 font-medium">
-                {user.role === "ADMIN" ? (
+                {user.role === "admin" ? (
                   <>
                     <span className="bg-red-500 p-1 text-white rounded-sm">
-                      {user.role}
+                      ADMIN
                     </span>
                   </>
                 ) : (
                   <>
                     <span className="bg-green-600 p-1 text-white rounded-sm">
-                      {user.role}
+                      USER
                     </span>
                   </>
                 )}
               </td>
+              <td className="p-4 text-sm text-slate-600 font-medium">
+                {user.is_active ? (
+                  <>
+                    <span className="p-1 text-white text-xl rounded-sm">
+                      ✅
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <span className="p-1 text-white text-xl rounded-sm">
+                      ❌
+                    </span>
+                  </>
+                )}
+              </td>
+
               <td className="p-4 text-[15px] text-slate-600 font-medium">
-                {user.createdAt.substring(0, 10)}
+                {user.date_joined.substring(0, 10)}
               </td>
               <td className="p-4">
                 <div className="flex items-center">
-                  {user.role === "ADMIN" ? (
-                    <NoSymbolIcon
-                      className="size-6 cursor-not-allowed text-red-500"
-                      onClick={() => removeUser(user._id)}
-                    />
+                  {user.role === "admin" ? (
+                    <NoSymbolIcon className="size-6 cursor-not-allowed text-red-500" />
                   ) : (
                     <TrashIcon
                       className="size-6 cursor-pointer text-red-500"
-                      onClick={() => removeUser(user._id)}
+                      onClick={() => removeUser(user.id)}
                     />
                   )}
                 </div>

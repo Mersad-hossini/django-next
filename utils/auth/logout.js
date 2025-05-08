@@ -2,7 +2,10 @@ import swal from "sweetalert";
 
 const logoutUser = async () => {
   try {
-    const res = await fetch("https://api.mander.ir/api/user/logout");
+    const res = await fetch("https://api.mander.ir/user/logout", {
+      method: "POST",
+      credentials: "include"
+    });
 
     if (res.ok) {
       swal({

@@ -23,10 +23,10 @@ function HomePage() {
 
   const getAllProducts = async () => {
     try {
-      const res = await fetch("/api/product/product-data");
+      const res = await fetch("https://api.mander.ir/product/products/");
       const productsData = await res.json();
       if (res.ok) {
-        setProducts(productsData.data);
+        setProducts(productsData.results);
       } else {
         console.error("Server error:", productsData.message);
       }

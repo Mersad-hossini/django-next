@@ -11,6 +11,7 @@ import {
 import Link from "next/link";
 import logoutUser from "@/utils/auth/logout";
 import { useRouter } from "next/router";
+import { useUser } from "@/context/UserContext";
 
 function UserBoxNav() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -19,7 +20,8 @@ function UserBoxNav() {
   const [userTag, setUserTag] = useState("");
   const dropdownRef = useRef(null);
 
-  const router = useRouter()
+  const { user } = useUser();  
+
 
   const toggleDropdown = () => {
     setIsUserDetailsOpen((prevState) => !prevState);
@@ -39,30 +41,21 @@ function UserBoxNav() {
   }, []);
 
   useEffect(() => {
-    const userAuth = async () => {
-      try {
-        const res = await fetch("/api/auth/me");
-        if (res.status === 200) {
-          const user = await res.json();
-          if (user?.data) {
-            if (user.data.role === "ADMIN") {
-              setIsAdmin(true);
-            }
-
-            setIsLoggedIn(true);
-            setUserTag(user.data.username);
-          }
+    try {
+      if (user) {
+        if (user?.role === "admin") {
+          setIsAdmin(true);
         }
-      } catch (err) {
-        setIsLoggedIn(false);
-        setIsAdmin(false);
-        setUserTag(null);
+
+        setIsLoggedIn(true);
+        setUserTag(user?.username);
       }
-    };
-    userAuth();
-  }, []);
-
-
+    } catch (err) {
+      setIsLoggedIn(false);
+      setIsAdmin(false);
+      setUserTag(null);
+    }
+  }, [user]);
 
   return (
     <div className="relative" ref={dropdownRef}>

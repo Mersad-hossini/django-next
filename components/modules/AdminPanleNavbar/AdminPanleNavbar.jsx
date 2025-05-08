@@ -1,8 +1,11 @@
 import React from "react";
 import { Bars3Icon } from "@heroicons/react/24/solid";
 import Link from "next/link";
+import { useUser } from "@/context/UserContext";
 
 function AdminPanleNavbar({ setIsOpen }) {
+    const { user } = useUser();  
+  
   const openSidebar = () => {
     setIsOpen((prev) => !prev);
   };
@@ -21,7 +24,7 @@ function AdminPanleNavbar({ setIsOpen }) {
         </div>
         <div className="hidden sm:block text-slate-500 dark:text-gray-400">
           Dear,
-          <span className="font-bold"> mersad </span>
+          <span className="font-bold"> {user?.username} </span>
           welcome to the Admin panel🎉
         </div>
       </div>

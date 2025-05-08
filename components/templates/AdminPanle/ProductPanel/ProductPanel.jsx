@@ -6,10 +6,16 @@ function ProductPanel() {
   const [products, setProducts] = useState([]);
 
   const fetchProducts = async () => {
-    const res = await fetch("/api/product/product-data");
+    const res = await fetch("https://api.mander.ir/product/products/", {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     const productData = await res.json();
 
-    setProducts(productData.data);
+    setProducts(productData.results);
   };
 
   useEffect(() => {

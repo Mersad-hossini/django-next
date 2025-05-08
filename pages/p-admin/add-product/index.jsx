@@ -1,16 +1,16 @@
 import ProductPanel from "@/components/templates/AdminPanle/ProductPanel/ProductPanel";
 import AdminLayout from "@/components/templates/AdminPanle/AdminLayout/AdminLayout";
-import { requireAdmin } from "@/utils/auth/requireAdmin";
 import React from "react";
+import AuthGuard from "@/hocks/authGuard/authGuard";
 
 function AddProdutc() {
   return (
-    <AdminLayout>
-      <ProductPanel />
-    </AdminLayout>
+    <AuthGuard requireAuth={true} allowedRoles={["admin"]}>
+      <AdminLayout>
+        <ProductPanel />
+      </AdminLayout>
+    </AuthGuard>
   );
 }
-
-export const getServerSideProps = requireAdmin;
 
 export default AddProdutc;

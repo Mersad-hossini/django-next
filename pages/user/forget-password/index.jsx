@@ -1,13 +1,13 @@
 import React from "react";
 import ForgetPassword from "@/components/templates/User/ForgetPassword/ForgetPassword";
-import CheckIfLoggedIn from "@/utils/auth/checkIfLoggedIn";
+import AuthGuard from "@/hocks/authGuard/authGuard";
 
 function Forgetpassword() {
   return (
     <>
-      <CheckIfLoggedIn redirectTo="/my-account">
+      <AuthGuard requireAuth={false}>
         <ForgetPassword />
-      </CheckIfLoggedIn>
+      </AuthGuard>
     </>
   );
 }

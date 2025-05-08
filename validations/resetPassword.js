@@ -8,6 +8,16 @@ const passwordSchema = Yup.object({
     .test("has-letter", "Password must contain at least one letter", (value) =>
       /[a-zA-Z]/.test(value)
     )
+    .test(
+      "has-lowercase",
+      "Password must contain at least one lowercase letter",
+      (value) => /[a-z]/.test(value)
+    )
+    .test(
+      "has-uppercase",
+      "Password must contain at least one uppercase letter",
+      (value) => /[A-Z]/.test(value)
+    ),
 });
 
 export default passwordSchema;

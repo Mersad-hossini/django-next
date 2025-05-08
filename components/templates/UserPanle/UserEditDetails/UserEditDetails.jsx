@@ -11,106 +11,118 @@ import {
   EnvelopeIcon,
   LockClosedIcon,
 } from "@heroicons/react/24/outline";
+import { yupResolver } from "@hookform/resolvers/yup";
 import PanelInput from "@/components/modules/PanelForm/PanelInput";
 import { useUser } from "@/context/UserContext";
+import { useForm } from "react-hook-form";
+import changeUserInfosSchema from "@/validations/changeUserInfos";
+import changePasswordPanle from "@/validations/changePasswordPanle";
 
 function UserEditDetails() {
-  const { user, loading } = useUser();
-  console.log(user);
-  
-  const [form, setForm] = useState({
-    username: user?.name,
-    phone: user?.phone,
-    email: user?.email,
+  const { user, fetchUser } = useUser();
+
+  const {
+    register: registerUser,
+    handleSubmit: handleUserSubmit,
+    reset,
+    formState: { errors: userErrors },
+  } = useForm({
+    defaultValues: {
+      username: user?.username,
+      phone_number: user?.phone_number,
+      email: user?.email,
+    },
+    resolver: yupResolver(changeUserInfosSchema),
   });
 
-  const [passwordForm, setPasswordForm] = useState({
-    currentPassword: "",
-    newPassword: "",
+  const {
+    register: passwordChange,
+    handleSubmit: handlePasswordSubmit,
+    formState: { errors: passwordErrors },
+  } = useForm({
+    defaultValues: {
+      new_password: "",
+      confirm_password: "",
+    },
+    resolver: yupResolver(changePasswordPanle),
   });
 
   const [isUpdating, setIsUpdating] = useState(false);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm({ ...form, [name]: value.trim() });
+  const updateUserInfos = async (newUserInfos) => {
+    setIsUpdating(true);
+
+    try {
+      const res = await fetch("https://api.mander.ir/user/user-profile", {
+        method: "PUT",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newUserInfos),
+      });
+      const data = await res.json();
+
+      if (res.ok) {
+        await fetchUser();
+        swal({
+          title: "Your information has been successfully updated",
+          icon: "success",
+          buttons: "Ok",
+        });
+      } else {
+        swal({
+          title: data.message || "Something went wrong!",
+          icon: "error",
+          buttons: "Ok",
+        });
+      }
+    } catch (err) {
+      swal({
+        title: "Something Went Wrong",
+        icon: "error",
+        buttons: "Ok",
+      });
+    }
   };
 
-  const handlePasswordChange = (e) => {
-    const { name, value } = e.target;
-    setPasswordForm({ ...passwordForm, [name]: value.trim() });
+  const updateNewPassword = async (changePassword) => {
+    setIsUpdating(true);
+
+    try {
+      const res = await fetch("https://api.mander.ir/user/change-password", {
+        method: "POST",
+        credentials: "include",
+
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(changePassword),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        swal({
+          title: "Your Password has been successfully updated",
+          icon: "success",
+          buttons: "Ok",
+        });
+      } else {
+        swal({
+          title: data.message || "Something went wrong!",
+          icon: "error",
+          buttons: "Ok",
+        });
+      }
+    } catch (err) {
+      swal({
+        title: "Something Went Wrong",
+        icon: "error",
+        buttons: "Ok",
+      });
+    }
   };
-
-  // const updateUserInfos = async (e) => {
-  //   e.preventDefault();
-  //   setIsUpdating(true);
-
-  //   try {
-  //     const res = await fetch(`/api/user/${userData._id}`, {
-  //       method: "PUT",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(form),
-  //     });
-
-  //     if (res.ok) {
-  //       swal({
-  //         title: "Your information has been successfully updated",
-  //         icon: "success",
-  //         buttons: "Ok",
-  //       });
-  //     } else {
-  //       swal({
-  //         title: "Something went wrong!",
-  //         icon: "error",
-  //         buttons: "Ok",
-  //       });
-  //     }
-  //   } catch (err) {
-  //     swal({
-  //       title: "Something Went Wrong",
-  //       icon: "error",
-  //       buttons: "Ok",
-  //     });
-  //   }
-  // };
-
-  // const updateNewPassword = async (e) => {
-  //   e.preventDefault();
-  //   setIsUpdating(true);
-
-  //   try {
-  //     const res = await fetch(`/api/user/change-password/${userData._id}`, {
-  //       method: "PUT",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(passwordForm),
-  //     });
-
-  //     const data = await res.json();
-  //     if (res.ok) {
-  //       swal({
-  //         title: "Your Password has been successfully updated",
-  //         icon: "success",
-  //         buttons: "Ok",
-  //       });
-  //     } else {
-  //       swal({
-  //         title: data.message || "Something went wrong!",
-  //         icon: "error",
-  //         buttons: "Ok",
-  //       });
-  //     }
-  //   } catch (err) {
-  //     swal({
-  //       title: "Something Went Wrong",
-  //       icon: "error",
-  //       buttons: "Ok",
-  //     });
-  //   }
-  // };
 
   useEffect(() => {
     if (isUpdating) {
@@ -120,6 +132,16 @@ function UserEditDetails() {
       return () => clearTimeout(timer);
     }
   }, [isUpdating]);
+
+  useEffect(() => {
+    if (user) {
+      reset({
+        username: user.username,
+        phone_number: user.phone_number,
+        email: user.email,
+      });
+    }
+  }, [user, reset]);
 
   return (
     <>
@@ -152,28 +174,28 @@ function UserEditDetails() {
       </div>
 
       {/* Change user details  */}
-      <form action="#">
+      <form onSubmit={handleUserSubmit(updateUserInfos)}>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 md:gap-6 md:pr-5 mt-5">
           <PanelInput
-            name="username"
             type="text"
+            placeholder={"username"}
             icon={UserCircleIcon}
-            value={form.username}
-            onChangeHandler={handleChange}
+            error={userErrors.username?.message}
+            {...registerUser("username")}
           />
           <PanelInput
-            name="phone"
             type="text"
+            placeholder="phone"
             icon={DevicePhoneMobileIcon}
-            value={form.phone}
-            onChangeHandler={handleChange}
+            error={userErrors.phone_number?.message}
+            {...registerUser("phone_number")}
           />
           <PanelInput
-            name="email"
             type="email"
+            placeholder="email"
             icon={EnvelopeIcon}
-            value={form.email}
-            onChangeHandler={handleChange}
+            error={userErrors.email?.message}
+            {...registerUser("email")}
           />
         </div>
 
@@ -185,50 +207,45 @@ function UserEditDetails() {
                 ? "bg-gray-500 cursor-not-allowed"
                 : "bg-green-600 hover:bg-green-700 cursor-pointer"
             }`}
-            // onClick={updateUserInfos}
           >
             Edit user account
           </button>
         </div>
       </form>
+
       {/* Change user password  */}
       <form
+        onSubmit={handlePasswordSubmit(updateNewPassword)}
         id="edit-account-password"
         className="block mt-6 md:mt-10 pt-6 md:pt-10 border-t border-t-neutral-200 dark:border-t-white/10"
       >
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 md:gap-6 md:pr-5">
-          {/* {userData?.isPasswordSet !== false && (
-            <PanelInput
-              name="currentPassword"
-              type="password"
-              icon={LockClosedIcon}
-              value={passwordForm.currentPassword}
-              onChangeHandler={handlePasswordChange}
-            />
-          )} */}
-
           <PanelInput
-            name="newPassword"
             type="password"
+            placeholder={"current password"}
             icon={LockClosedIcon}
-            value={passwordForm.newPassword}
-            onChangeHandler={handlePasswordChange}
+            error={passwordErrors.new_password?.message}
+            {...passwordChange("new_password")}
+          />
+          <PanelInput
+            type="password"
+            placeholder={"new password"}
+            icon={LockClosedIcon}
+            error={passwordErrors.confirm_password?.message}
+            {...passwordChange("confirm_password")}
           />
         </div>
 
         <div className="flex-center flex-wrap mt-8 md:pr-5">
           <button
             disabled={isUpdating}
-            className={`w-full sm:w-62 border transition-colors py-3 rounded-md text-white ${
+            className={`w-full sm:w-62 transition-colors py-3 rounded-md text-white ${
               isUpdating
                 ? "bg-gray-500 cursor-not-allowed"
-                : "border-green-600 hover:bg-green-700 cursor-pointer"
+                : "bg-green-600 hover:bg-green-700 cursor-pointer"
             }`}
-            // onClick={updateNewPassword}
           >
-            {/* {userData?.hasPassword === false
-              ? "Set Password"
-              : "Change Password"} */}
+            EditChange Password
           </button>
         </div>
       </form>

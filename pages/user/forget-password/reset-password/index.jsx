@@ -1,13 +1,12 @@
 import React from "react";
 import ResetPassword from "@/components/templates/User/ResetPassword/ResetPassword";
-import CheckIfLoggedIn from "@/utils/auth/checkIfLoggedIn";
 import { useRouter } from "next/router";
+import AuthGuard from "@/hocks/authGuard/authGuard";
 
 function ResetPasswordPage() {
   const router = useRouter();
   const { code: resetPasswordCode } = router.query;
 
-  // تا زمانی که query هنوز آماده نیست، هیچ چیزی نمایش نده
   if (!router.isReady) return null;
 
   if (!resetPasswordCode) {
@@ -16,9 +15,9 @@ function ResetPasswordPage() {
   }
 
   return (
-    <CheckIfLoggedIn redirectTo="/my-account">
+    <AuthGuard requireAuth={false}>
       <ResetPassword resetCode={resetPasswordCode} />
-    </CheckIfLoggedIn>
+    </AuthGuard>
   );
 }
 

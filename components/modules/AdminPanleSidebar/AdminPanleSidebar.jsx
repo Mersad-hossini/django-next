@@ -10,8 +10,11 @@ import {
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useUser } from "@/context/UserContext";
 
 function AdminPanleSidebar({ isOpen, setIsOpen }) {
+  const { user } = useUser();
+
   const closeSidebarHandler = () => {
     setIsOpen(false);
   };
@@ -39,8 +42,12 @@ function AdminPanleSidebar({ isOpen, setIsOpen }) {
 
       {/* Top User Info  */}
       <div className="relative bg-green-500 text-white rounded md:h-[140px] px-3 py-3 md:pt-5 mb-8 md:mb-20 text-center">
-        <span className="block font-danaDemiBold truncate">mersad</span>
-        <span className="text-sm truncate mt-2.5"> sunday 24 june 2025 </span>
+        <span className="block font-danaDemiBold truncate">
+          {user?.username}
+        </span>
+        <span className=" text-red-400 font-bold mt-2.5">
+          {user?.role === "admin" ? "Admin" : "-"}{" "}
+        </span>
         <div className="hidden md:block relative -mb-11 mx-auto mt-3.5 size-22 p-1 bg-gradient-to-b from-white/40 to-white/0 to-100% shadow-md rounded-full">
           <img
             src="/images/user-image.png"

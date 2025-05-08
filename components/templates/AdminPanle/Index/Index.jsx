@@ -8,12 +8,22 @@ function Index() {
   const [productCount, setProductCount] = useState(0);
 
   useEffect(() => {
-    fetch("/api/stats/stats-count")
-      .then((res) => res.json())
-      .then((data) => {
-        setUsersCount(data.users);
-        setProductCount(data.products);
-      });
+    const getStateCount = async () => {
+      const res = await fetch(
+        "https://api.mander.ir/admin-panel/dashboard/summary",
+        {
+          method: "GET",
+          credentials: "include",
+        }
+      );
+      if (res.ok) {
+        const data = await res.json();
+        setUsersCount(data.summary.total_users);
+        setProductCount(data.summary.total_products);
+      }
+    };
+
+    getStateCount();
   }, []);
 
   return (

@@ -47,7 +47,7 @@ function ProductTable({ products, onDelete }) {
 
     if (confirm) {
       try {
-        const res = await fetch(`/api/product/${id}`, {
+        const res = await fetch(`https://api.mander.ir/product/products/${id}/`, {
           method: "DELETE",
         });
 
@@ -94,7 +94,7 @@ function ProductTable({ products, onDelete }) {
         </thead>
         <tbody className="whitespace-nowrap">
           {products?.map((product, index) => (
-            <tr key={product._id} className="even:bg-blue-50">
+            <tr key={product.id} className="even:bg-blue-50">
               <td className="p-4 text-[15px] text-slate-600 font-medium">
                 {index + 1}
               </td>
@@ -121,7 +121,7 @@ function ProductTable({ products, onDelete }) {
                   />
                   <TrashIcon
                     className="size-6 text-red-500 cursor-pointer"
-                    onClick={() => removeProductHandler(product._id)}
+                    onClick={() => removeProductHandler(product.id)}
                   />
                 </div>
               </td>

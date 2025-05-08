@@ -1,10 +1,10 @@
-import CheckIfLoggedIn from "@/utils/auth/checkIfLoggedIn";
 import SignInDetails from "@/components/templates/User/SignInDetails/SignInDetails";
+import AuthGuard from "@/hocks/authGuard/authGuard";
 
 export default function SignIn() {
   return (
-    <CheckIfLoggedIn redirectTo="/my-account">
+    <AuthGuard requireAuth={false}>
       <SignInDetails />
-    </CheckIfLoggedIn>
+    </AuthGuard>
   );
 }

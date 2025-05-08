@@ -1,4 +1,3 @@
-import EnterWithGoogle from "@/components/modules/EnterWithGoogle/EnterWithGoogle";
 import FormTitle from "@/components/modules/FormTitle/FormTitle";
 import InputForm from "@/components/modules/InputForm/InputForm";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -34,7 +33,6 @@ function SignUpDetails() {
   const router = useRouter();
 
   const userSubmitHandler = async (data) => {
-    
     setLoading(true);
 
     try {

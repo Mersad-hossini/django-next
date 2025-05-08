@@ -1,15 +1,10 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-  async redirects() {
+export default {
+  async rewrites() {
     return [
       {
-        source: "/product",
-        destination: "/",
-        permanent: false,
+        source: "/api/:path*",
+        destination: "https://api.mander.ir/:path*",
       },
     ];
   },
 };
-
-export default nextConfig;

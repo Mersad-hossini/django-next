@@ -1,11 +1,10 @@
-// pages/signin.jsx
-import CheckIfLoggedIn from "@/utils/auth/checkIfLoggedIn";
 import SignUpDetails from "@/components/templates/User/SignUpDetails/SignUpDetails";
+import AuthGuard from "@/hocks/authGuard/authGuard";
 
 export default function SignIn() {
   return (
-    <CheckIfLoggedIn redirectTo="/my-account">
+    <AuthGuard requireAuth={false}>
       <SignUpDetails />
-    </CheckIfLoggedIn>
+    </AuthGuard>
   );
 }

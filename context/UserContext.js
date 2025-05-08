@@ -15,9 +15,10 @@ export const UserProvider = ({ children }) => {
           "Content-Type": "application/json",
         },
       });
-      
+
       return res.ok;
     } catch (err) {
+      console.error("Error refreshing token:", err);
       return false;
     }
   };
@@ -36,33 +37,35 @@ export const UserProvider = ({ children }) => {
         setUser(null);
       }
     } catch (err) {
+      console.error("Error fetching user:", err);
       setUser(null);
     }
   };
 
-  const storeTokens = async (access, refresh) => {
-    await fetchUser();
+  const storeTokens = async () => {
+    await fetchUser(); // فعلاً فقط fetchUser صدا می‌زنه
   };
 
   useEffect(() => {
     const initAuth = async () => {
-      const refreshed = await refreshAccessToken(); // ← ارسال به /auth/refresh
+      const refreshed = await refreshAccessToken();
       if (refreshed) {
-        await fetchUser(); // ← گرفتن اطلاعات کاربر
+        await fetchUser();
       } else {
-        setUser(null); // ← لاگ‌اوت یا ناشناس
+        setUser(null);
       }
       setLoading(false);
     };
-  
-    initAuth(); // ← اجرای اولیه هنگام mount
+
+    initAuth();
   }, []);
-  
 
   return (
-    <UserContext value={{ user, setUser, loading, storeTokens }}>
+    <UserContext.Provider
+      value={{ user, setUser, loading, storeTokens, fetchUser }}
+    >
       {children}
-    </UserContext>
+    </UserContext.Provider>
   );
 };
 

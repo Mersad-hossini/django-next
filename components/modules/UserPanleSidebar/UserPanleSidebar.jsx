@@ -12,11 +12,11 @@ import { useRouter } from "next/router";
 import logoutUser from "@/utils/auth/logout";
 import { useUser } from "@/context/UserContext";
 function UserPanleSidebar({ isOpen, setIsOpen }) {
-  const { user, loading } = useUser();
-  
+  const { user } = useUser();
+
   const closeSidebarHandler = () => {
     setIsOpen(false);
-  };  
+  };
 
   const router = useRouter();
 
@@ -41,7 +41,12 @@ function UserPanleSidebar({ isOpen, setIsOpen }) {
 
       {/* Top User Info  */}
       <div className="relative bg-sky-500 text-white rounded md:h-[140px] px-3 py-3 md:pt-5 mb-8 md:mb-20 text-center">
-        <span className="block font-danaDemiBold truncate">{user?.username}</span>
+        <span className="block font-danaDemiBold truncate">
+          {user?.username}
+        </span>
+        <span className=" text-red-400 font-bold mt-2.5">
+          {user?.role === "admin" ? "Admin" : "User"}
+        </span>
         <div className="hidden md:block relative -mb-11 mx-auto mt-3.5 size-22 p-1 bg-gradient-to-b from-white/40 to-white/0 to-100% shadow-md rounded-full">
           <img
             src="https://secure.gravatar.com/avatar/ff8c64ea5e4724a9bffca0a348cf405a?s=96&amp;d=mm&amp;r=g"

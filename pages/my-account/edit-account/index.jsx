@@ -1,17 +1,16 @@
 import React from "react";
 import UserLayout from "@/components/templates/UserPanle/UserLayout/UserLayout";
 import UserEditDetails from "@/components/templates/UserPanle/UserEditDetails/UserEditDetails";
-// import { requireLogin } from "@/utils/auth/requireLogin";
+import AuthGuard from "@/hocks/authGuard/authGuard";
 
 function MuCourse({ user }) {
   return (
-    <UserLayout userData={user}>
-      <UserEditDetails userData={user} />
-    </UserLayout>
+    <AuthGuard requireAuth={true}>
+      <UserLayout userData={user}>
+        <UserEditDetails userData={user} />
+      </UserLayout>
+    </AuthGuard>
   );
 }
-
-// export const getServerSideProps = requireLogin;
-
 
 export default MuCourse;
