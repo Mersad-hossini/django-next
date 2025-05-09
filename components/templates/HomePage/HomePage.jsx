@@ -18,15 +18,16 @@ function HomePage() {
   const searchHandler = (e) => {
     e.preventDefault();
     if (!searchValue.trim()) return;
-    router.push(`/search?query=${encodeURIComponent(searchValue)}`);
+    router.push(`/search?query=${searchValue}`);
   };
 
   const getAllProducts = async () => {
     try {
       const res = await fetch("https://api.mander.ir/product/products/");
       const productsData = await res.json();
+
       if (res.ok) {
-        setProducts(productsData.results);
+        setProducts(productsData);
       } else {
         console.error("Server error:", productsData.message);
       }
@@ -77,7 +78,7 @@ function HomePage() {
                 key={category}
                 title={category}
                 category={category}
-                products={products} 
+                products={products}
               />
             ))}
           </>

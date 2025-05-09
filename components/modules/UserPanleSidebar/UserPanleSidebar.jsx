@@ -49,7 +49,7 @@ function UserPanleSidebar({ isOpen, setIsOpen }) {
         </span>
         <div className="hidden md:block relative -mb-11 mx-auto mt-3.5 size-22 p-1 bg-gradient-to-b from-white/40 to-white/0 to-100% shadow-md rounded-full">
           <img
-            src="https://secure.gravatar.com/avatar/ff8c64ea5e4724a9bffca0a348cf405a?s=96&amp;d=mm&amp;r=g"
+            src={user?.avatar ||"https://secure.gravatar.com/avatar/ff8c64ea5e4724a9bffca0a348cf405a?s=96&amp;d=mm&amp;r=g"}
             className="size-full object-cover rounded-full"
             alt="namiko"
           />

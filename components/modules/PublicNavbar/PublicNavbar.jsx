@@ -20,7 +20,7 @@ function PublicNavbar() {
   const searchHandler = (e) => {
     e.preventDefault();
     if (!searchValue.trim()) return;
-    router.push(`/search?query=${encodeURIComponent(searchValue)}`);
+    router.push(`/search?query=${searchValue}`);
   };
 
   return (

@@ -19,9 +19,7 @@ function UserBoxNav() {
   const [userTag, setUserTag] = useState("");
   const dropdownRef = useRef(null);
 
-  const { user } = useUser();  
-  console.log(user?.avatar);
-  
+  const { user } = useUser();
 
   const toggleDropdown = () => {
     setIsUserDetailsOpen((prevState) => !prevState);
@@ -77,7 +75,10 @@ function UserBoxNav() {
               <div className="flex items-center border-b border-b-neutral-200 dark:border-b-white/5 pb-5 mb-2">
                 <Link href="/my-account" className="shrink-0">
                   <img
-                    src={user?.avatar}
+                    src={
+                      user?.avatar ||
+                      "https://secure.gravatar.com/avatar/ff8c64ea5e4724a9bffca0a348cf405a?s=96&amp;d=mm&amp;r=g"
+                    }
                     alt="namiko"
                     className="object-cover w-14 h-14 rounded-full inline-block"
                     loading="lazy"

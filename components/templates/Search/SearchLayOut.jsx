@@ -8,8 +8,9 @@ import React from "react";
 function SearchLayOut() {
   const router = useRouter();
   const { query } = router.query;
+  
 
-  const { searchResults, loading, error } = useSearchHandler(query ?? "");
+  const { searchResults, loading, error } = useSearchHandler((query ?? "").trim());
 
   return (
     <div className="flex flex-col min-h-screen">

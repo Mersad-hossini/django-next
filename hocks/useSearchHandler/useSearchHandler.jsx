@@ -12,13 +12,13 @@ function useSearchHandler(query) {
       try {
         setLoading(true);
         const res = await fetch(
-          `https://api.mander.ir/product/products/${query}/`
+          `https://api.mander.ir/product/products/?search=${query}`
         );
         if (!res.ok) throw new Error("Search failed");
 
-        const data = await res.json();
+        const filteredProducts = await res.json();                
 
-        setSearchResults(data.filteredProducts);
+        setSearchResults(filteredProducts);
       } catch (err) {
         setError(err.message || "Something went wrong");
       } finally {

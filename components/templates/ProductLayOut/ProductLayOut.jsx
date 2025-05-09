@@ -1,10 +1,11 @@
 import Footer from "@/components/modules/Footer/Footer";
 import PublicNavbar from "@/components/modules/PublicNavbar/PublicNavbar";
 import useAddToCart from "@/hocks/useAddToCart/useAddToCart";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 function ProductLayOut({ product }) {
-  const { addToCart, loading, error } = useAddToCart();
+  const { addToCart, loading } = useAddToCart();
+  
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -13,7 +14,7 @@ function ProductLayOut({ product }) {
         <div className="flex flex-col md:flex-row items-center justify-center gap-6 p-4">
           {/* Image and title section */}
           <div className="w-full md:w-1/2 text-center">
-            <h1 className="pb-2 text-2xl md:text-3xl">{product.productname}</h1>
+            <h1 className="pb-2 text-2xl md:text-3xl">{product.title || ""}</h1>
             <div className="border-t border-gray-100 pt-5">
               <img
                 src={product.image}
