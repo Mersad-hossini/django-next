@@ -73,9 +73,9 @@ function HomePage() {
 
         {products.length > 0 ? (
           <>
-            {categories.map((category) => (
+            {categories.map((category, index) => (
               <ProductSection
-                key={category}
+                key={index}
                 title={category}
                 category={category}
                 products={products}

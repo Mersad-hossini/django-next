@@ -9,7 +9,7 @@ const ProductSection = ({ title, category, products }) => (
         ? products
         : products.filter((item) => item.category === category)
       ).map((product) => (
-        <ProductBox key={product._id} {...product} />
+        <ProductBox key={product.id} {...product} />
       ))}
     </div>
   </>

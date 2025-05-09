@@ -3,7 +3,7 @@ import Link from "next/link";
 import React from "react";
 import swal from "sweetalert";
 
-function ProductBox({ id, title, image, description, price, slug }) {
+function ProductBox({ id, title, image, description, price }) {
   const { addToCart, loading } = useAddToCart();
 
   const isValidProduct = id && title && price;
