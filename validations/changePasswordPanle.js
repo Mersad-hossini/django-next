@@ -1,7 +1,7 @@
 import * as Yup from "yup";
 
 const changePasswordPanleSchema = Yup.object({
-  new_password: Yup.string()
+  old_password: Yup.string()
     .required("Password is required")
     .min(8, "Password must be at least 8 characters long")
     .max(20, "Password must not exceed 20 characters")
@@ -18,7 +18,7 @@ const changePasswordPanleSchema = Yup.object({
       "Password must contain at least one uppercase letter",
       (value) => /[A-Z]/.test(value)
     ),
-  confirm_password: Yup.string()
+  new_password: Yup.string()
     .required("Password is required")
     .min(8, "Password must be at least 8 characters long")
     .max(20, "Password must not exceed 20 characters")

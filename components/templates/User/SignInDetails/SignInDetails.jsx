@@ -25,7 +25,7 @@ function SignInDetails() {
   });
 
   const router = useRouter();
-  const { storeTokens } = useUser(); // ✅ فراخوانی درست Hook
+  const { storeTokens } = useUser(); 
 
   const loginHandler = async (data) => {
     try {
@@ -36,6 +36,7 @@ function SignInDetails() {
 
       const res = await fetch("https://api.mander.ir/user/login", {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -44,6 +45,7 @@ function SignInDetails() {
       });
 
       const userData = await res.json();
+      
       if (res.status === 200) {
         storeTokens(userData.access, userData.refresh);
 

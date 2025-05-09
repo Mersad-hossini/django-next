@@ -13,9 +13,9 @@ function ProductPanel() {
         "Content-Type": "application/json",
       },
     });
-    const productData = await res.json();
+    const productData = await res.json();        
 
-    setProducts(productData.results);
+    setProducts(productData);
   };
 
   useEffect(() => {

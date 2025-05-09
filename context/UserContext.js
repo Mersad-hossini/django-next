@@ -28,6 +28,9 @@ export const UserProvider = ({ children }) => {
       const res = await fetch("https://api.mander.ir/user/user-profile", {
         method: "GET",
         credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
 
       if (res.ok) {
@@ -43,7 +46,7 @@ export const UserProvider = ({ children }) => {
   };
 
   const storeTokens = async () => {
-    await fetchUser(); // فعلاً فقط fetchUser صدا می‌زنه
+    await fetchUser();
   };
 
   useEffect(() => {

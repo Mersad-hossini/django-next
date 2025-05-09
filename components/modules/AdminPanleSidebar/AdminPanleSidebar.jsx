@@ -117,6 +117,24 @@ function AdminPanleSidebar({ isOpen, setIsOpen }) {
               <ChevronLeftIcon className="size-5 md:size-6 text-white font-bold rotate-180" />
             </Link>
           </div>
+          <div className="py-2 md:py-3">
+            <Link
+              href="/p-admin/add-category"
+              className={`flex items-center justify-between text-sm md:text-base font-danaMedium ${
+                router.pathname === "/p-admin/add-category"
+                  ? "**:text-sky-500"
+                  : "text-white"
+              }`}
+            >
+              <span className="flex items-center gap-x-2.5 w-full">
+                <PlusCircleIcon className="size-5 md:size-7 text-white font-bold" />
+
+                <span className="text-white font-bold">Add Category</span>
+              </span>
+
+              <ChevronLeftIcon className="size-5 md:size-6 text-white font-bold rotate-180" />
+            </Link>
+          </div>
         </div>
       </div>
 

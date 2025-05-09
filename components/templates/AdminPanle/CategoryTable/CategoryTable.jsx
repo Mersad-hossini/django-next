@@ -3,29 +3,32 @@ import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
 import swal from "sweetalert";
 import Modal from "@/components/modules/Modal/Modal";
 
-function ProductTable({ products, onDelete }) {  
+function CategoryTable({ categories, onDelete }) {
   const [showModal, setShowModal] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
-  const handleEditClick = (product) => {
-    setSelectedProduct(product);
+  const handleEditClick = (categories) => {
+    setSelectedCategory(categories);
     setShowModal(true);
   };
 
-  const handleModalSubmit = async (updatedProduct) => {
+  const handleModalSubmit = async (updatedCategoty) => {
     try {
-      const res = await fetch(`/api/product/${selectedProduct._id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedProduct),
-      });
+      const res = await fetch(
+        `https://api.mander.ir/product/product-category/${id}/`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(updatedCategoty),
+        }
+      );
 
       const result = await res.json();
 
       if (res.ok) {
         swal("Updated!", result.message || "Product updated.", "success");
         setShowModal(false);
-        setSelectedProduct(null);
+        setSelectedCategory(null);
         onDelete?.(); // You might rename this to `onUpdate` for clarity
       } else {
         swal("Error", result.message, "error");
@@ -36,7 +39,7 @@ function ProductTable({ products, onDelete }) {
     }
   };
 
-  const removeProductHandler = async (id) => {
+  const removeCategoryHandler = async (id) => {
     const confirm = await swal({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -48,31 +51,28 @@ function ProductTable({ products, onDelete }) {
     if (confirm) {
       try {
         const res = await fetch(
-          `https://api.mander.ir/product/products/${id}/`,
+          `https://api.mander.ir/product/product-category/${id}/`,
           {
             method: "DELETE",
-            credentials: "include", 
           }
         );
 
+        let result = null;
+        let message = "Category deleted successfully";
+
+        if (res.status !== 204) {
+          result = await res.json();
+          message = result.message || message;
+        }
+
         if (res.ok) {
-          const result = await res.json().catch(() => ({})); 
-          swal(
-            "Deleted!",
-            result.message || "Product deleted successfully",
-            "success"
-          );
+          swal("Deleted!", message, "success");
           onDelete?.();
         } else {
-          const result = await res.json().catch(() => ({}));
-          swal(
-            "Error",
-            result.message || "Failed to delete the product",
-            "error"
-          );
+          swal("Error", message, "error");
         }
       } catch (err) {
-        console.error(err);
+        console.error("Caught error in fetch:", err);
         swal("Error", "Something went wrong!", "error");
       }
     }
@@ -85,22 +85,13 @@ function ProductTable({ products, onDelete }) {
           <tr>
             <th className="p-4 text-left text-sm font-medium text-white">Id</th>
             <th className="p-4 text-left text-sm font-medium text-white">
-              Product Name
+              Title
             </th>
             <th className="p-4 text-left text-sm font-medium text-white">
               Url
             </th>
             <th className="p-4 text-left text-sm font-medium text-white">
-              Price
-            </th>
-            <th className="p-4 text-left text-sm font-medium text-white">
-              Image
-            </th>
-            <th className="p-4 text-left text-sm font-medium text-white">
-              Product verification
-            </th>
-            <th className="p-4 text-left text-sm font-medium text-white">
-              Category
+              Account verification
             </th>
             <th className="p-4 text-left text-sm font-medium text-white">
               Actions
@@ -108,25 +99,19 @@ function ProductTable({ products, onDelete }) {
           </tr>
         </thead>
         <tbody className="whitespace-nowrap">
-          {products?.map((product, index) => (
-            <tr key={product.id} className="even:bg-blue-50">
+          {categories?.map((category, index) => (
+            <tr key={category.id} className="even:bg-blue-50">
               <td className="p-4 text-[15px] text-slate-600 font-medium">
                 {index + 1}
               </td>
               <td className="p-4 text-[15px] text-slate-600 font-medium">
-                {product.title}
+                {category.title}
               </td>
               <td className="p-4 text-[15px] text-slate-600 font-medium">
-                {product.slug}
-              </td>
-              <td className="p-4 text-[15px] text-slate-600 font-medium">
-                {Number(product.price).toLocaleString()}
-              </td>
-              <td className="p-4 text-[15px] text-slate-600 font-medium">
-                {product.image.substring(42)}
+                {category.slug}
               </td>
               <td className="p-4 text-sm text-slate-600 font-medium">
-                {product.is_active ? (
+                {category.is_active ? (
                   <>
                     <span className="p-1 text-white text-xl rounded-sm">
                       ✅
@@ -140,18 +125,15 @@ function ProductTable({ products, onDelete }) {
                   </>
                 )}
               </td>
-              <td className="p-4 text-[15px] text-slate-600 font-medium">
-                {product.categories.title}
-              </td>
               <td className="p-4">
                 <div className="flex items-center gap-2">
                   <PencilSquareIcon
                     className="size-6 text-blue-500 cursor-pointer"
-                    onClick={() => handleEditClick(product)}
+                    onClick={() => handleEditClick(categories)}
                   />
                   <TrashIcon
                     className="size-6 text-red-500 cursor-pointer"
-                    onClick={() => removeProductHandler(product.id)}
+                    onClick={() => removeCategoryHandler(category.id)}
                   />
                 </div>
               </td>
@@ -165,14 +147,14 @@ function ProductTable({ products, onDelete }) {
           show={showModal}
           onClose={() => {
             setShowModal(false);
-            setSelectedProduct(null);
+            setSelectedCategory(null);
           }}
           onSubmit={handleModalSubmit}
-          initialData={selectedProduct}
+          initialData={selectedCategory}
         />
       )}
     </div>
   );
 }
 
-export default ProductTable;
+export default CategoryTable;

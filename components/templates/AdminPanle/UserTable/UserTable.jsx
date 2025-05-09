@@ -17,10 +17,10 @@ function UserTable() {
     const res = await fetch("https://api.mander.ir/admin-panel/users", {
       method: "GET",
       credentials: "include",
-    });
-
+    });    
+    
     const users = await res.json();
-    setUsers(users.results);
+    setUsers(users);
   };
 
   const removeUser = async (id) => {
@@ -105,7 +105,7 @@ function UserTable() {
                 {user.email}
               </td>
               <td className="p-4 text-[15px] text-slate-600 font-medium">
-                {user.phone ? user.phone : "—"}
+                {user.phone_number}
               </td>
               <td className="p-4 text-sm text-slate-600 font-medium">
                 {user.role === "admin" ? (

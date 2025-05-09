@@ -1,5 +1,5 @@
 import PanelInput from "@/components/modules/PanelForm/PanelInput";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   ClipboardIcon,
@@ -14,47 +14,85 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 
 function AddProductForm({ onProductAdded }) {
+  const [allCategories, setAllCategories] = useState([]);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
     defaultValues: {
-      productName: "",
-      urlName: "",
+      title: "",
+      slug: "",
       price: "",
       image: "",
-      category: "",
+      categories: "",
       description: "",
     },
     resolver: yupResolver(productSchema),
   });
 
-  const addNewProductHandler = async (productInfos) => {    
-    const res = await fetch("https://api.mander.ir/product/products/", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(productInfos),
-    });
-    const data = await res.json();
-    if (res.status === 201) {
-      swal({
-        title: "Product Successfully Created",
-        icon: "success",
-        button: "Ok",
+  const addNewProductHandler = async (productInfos) => {
+    const formData = new FormData();
+
+    formData.append("categories", JSON.stringify(productInfos.categories));
+    formData.append("description", productInfos.description || "");
+    formData.append("price", productInfos.price);
+    formData.append("slug", productInfos.slug);
+    formData.append("title", productInfos.title);
+
+    if (productInfos.image && productInfos.image[0]) {
+      formData.append("image", productInfos.image[0]);
+    }
+
+    try {
+      const res = await fetch("https://api.mander.ir/product/products/", {
+        method: "POST",
+        credentials: "include",
+        body: formData,
       });
-      onProductAdded();
-    } else {
+
+      const data = await res.json();
+
+      if (res.status === 201) {
+        swal({
+          title: "Product Successfully Created",
+          icon: "success",
+          button: "Ok",
+        });
+        onProductAdded();
+      } else {
+        swal({
+          title: data.message || "Error occurred",
+          icon: "warning",
+          button: "Ok",
+        });
+      }
+    } catch (error) {
+      console.error("Error:", error);
       swal({
-        title: data.message,
-        icon: "warning",
+        title: "Failed to create product",
+        icon: "error",
         button: "Ok",
       });
     }
   };
+
+  const getAllCategories = async () => {
+    const res = await fetch("https://api.mander.ir/product/product-category/", {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const CategoriesData = await res.json();
+
+    setAllCategories(CategoriesData);
+  };
+
+  useEffect(() => {
+    getAllCategories();
+  }, []);
 
   return (
     <div className="max-w-[1332px] w-full px-4 md:px-8 pb-5 md:pb-8 mx-auto">
@@ -64,15 +102,15 @@ function AddProductForm({ onProductAdded }) {
             type="text"
             placeholder="title"
             icon={ClipboardIcon}
-            error={errors.productName?.message}
-            {...register("productName")}
+            error={errors.title?.message}
+            {...register("title")}
           />
           <PanelInput
             placeholder="Url"
             type="text"
             icon={GlobeAsiaAustraliaIcon}
-            error={errors.urlName?.message}
-            {...register("urlName")}
+            error={errors.slug?.message}
+            {...register("slug")}
           />
           <PanelInput
             placeholder="price"
@@ -82,7 +120,7 @@ function AddProductForm({ onProductAdded }) {
             {...register("price")}
           />
           <PanelInput
-            type="text"
+            type="file"
             icon={InformationCircleIcon}
             placeholder="image"
             error={errors.image?.message}
@@ -95,19 +133,21 @@ function AddProductForm({ onProductAdded }) {
             >
               Category
             </label>
-            <div id="category" className="relative">
+            <div id="categories" className="relative">
               <select
                 className="w-full placeholder:text-gray-400 outline-0 text-gray-900 dark:text-white bg-darker text-sm py-3.5 pr-3.5 pl-13 rounded opacity-60"
-                {...register("category")}
+                {...register("categories")}
               >
                 <option value="-1">-- Select a Category --</option>
-                <option value="clothe">clothe</option>
-                <option value="digital">digital</option>
-                <option value="food">food</option>
+                {allCategories?.map((allCategory) => (
+                  <option key={allCategory.id} value={allCategory.title}>
+                    {allCategory.title}
+                  </option>
+                ))}
               </select>
-              {errors.category && (
+              {errors.categories && (
                 <p className="text-red-500 text-xs mt-1">
-                  {errors.category?.message}
+                  {errors.categories?.message}
                 </p>
               )}
               <TagIcon className="absolute left-3.5 top-0 bottom-0 my-auto size-6 text-slate-500 dark:text-gray-400" />

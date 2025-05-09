@@ -10,7 +10,6 @@ import {
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import logoutUser from "@/utils/auth/logout";
-import { useRouter } from "next/router";
 import { useUser } from "@/context/UserContext";
 
 function UserBoxNav() {
@@ -21,7 +20,8 @@ function UserBoxNav() {
   const dropdownRef = useRef(null);
 
   const { user } = useUser();  
-
+  console.log(user?.avatar);
+  
 
   const toggleDropdown = () => {
     setIsUserDetailsOpen((prevState) => !prevState);
@@ -77,7 +77,7 @@ function UserBoxNav() {
               <div className="flex items-center border-b border-b-neutral-200 dark:border-b-white/5 pb-5 mb-2">
                 <Link href="/my-account" className="shrink-0">
                   <img
-                    src="/images/user-image.png"
+                    src={user?.avatar}
                     alt="namiko"
                     className="object-cover w-14 h-14 rounded-full inline-block"
                     loading="lazy"

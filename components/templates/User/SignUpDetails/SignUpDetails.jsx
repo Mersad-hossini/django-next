@@ -43,7 +43,6 @@ function SignUpDetails() {
         password: data.password,
       };
 
-      // ارسال درخواست ثبت‌نام به API
       const res = await fetch("https://api.mander.ir/user/register", {
         method: "POST",
         headers: {
@@ -51,7 +50,7 @@ function SignUpDetails() {
         },
         body: JSON.stringify(userInfos),
       });
-
+      
       const responseData = await res.json();
 
       if (res.status === 201) {

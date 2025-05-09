@@ -28,9 +28,10 @@ function UserEditDetails() {
     formState: { errors: userErrors },
   } = useForm({
     defaultValues: {
-      username: user?.username,
-      phone_number: user?.phone_number,
-      email: user?.email,
+      username: user?.username || "",
+      phone_number: user?.phone_number || "",
+      email: user?.email || "",
+      avatar: "",
     },
     resolver: yupResolver(changeUserInfosSchema),
   });
@@ -41,8 +42,8 @@ function UserEditDetails() {
     formState: { errors: passwordErrors },
   } = useForm({
     defaultValues: {
+      old_password: "",
       new_password: "",
-      confirm_password: "",
     },
     resolver: yupResolver(changePasswordPanle),
   });
@@ -52,15 +53,22 @@ function UserEditDetails() {
   const updateUserInfos = async (newUserInfos) => {
     setIsUpdating(true);
 
+    const formData = new FormData();
+    formData.append("username", newUserInfos.username);
+    formData.append("phone_number", newUserInfos.phone_number);
+    formData.append("email", newUserInfos.email);
+
+    if (newUserInfos.avatar && newUserInfos.avatar[0]) {
+      formData.append("avatar", newUserInfos.avatar[0]);
+    }
+
     try {
       const res = await fetch("https://api.mander.ir/user/user-profile", {
         method: "PUT",
         credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newUserInfos),
+        body: formData, 
       });
+
       const data = await res.json();
 
       if (res.ok) {
@@ -78,11 +86,14 @@ function UserEditDetails() {
         });
       }
     } catch (err) {
+      console.error("Error:", err);
       swal({
         title: "Something Went Wrong",
         icon: "error",
         buttons: "Ok",
       });
+    } finally {
+      setIsUpdating(false); 
     }
   };
 
@@ -197,6 +208,13 @@ function UserEditDetails() {
             error={userErrors.email?.message}
             {...registerUser("email")}
           />
+          <PanelInput
+            type="file"
+            placeholder="avatar"
+            icon={EnvelopeIcon}
+            error={userErrors.avatar?.message}
+            {...registerUser("avatar")}
+          />
         </div>
 
         <div className="flex-center flex-wrap mt-8 md:pr-5">
@@ -224,15 +242,15 @@ function UserEditDetails() {
             type="password"
             placeholder={"current password"}
             icon={LockClosedIcon}
-            error={passwordErrors.new_password?.message}
-            {...passwordChange("new_password")}
+            error={passwordErrors.old_password?.message}
+            {...passwordChange("old_password")}
           />
           <PanelInput
             type="password"
             placeholder={"new password"}
             icon={LockClosedIcon}
-            error={passwordErrors.confirm_password?.message}
-            {...passwordChange("confirm_password")}
+            error={passwordErrors.new_password?.message}
+            {...passwordChange("new_password")}
           />
         </div>
 
