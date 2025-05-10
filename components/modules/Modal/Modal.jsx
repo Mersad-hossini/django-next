@@ -1,52 +1,36 @@
 import { useEffect, useState } from "react";
 import PanelInput from "../PanelForm/PanelInput";
-import { InformationCircleIcon } from "@heroicons/react/24/solid";
 
-export default function Modal({ show, onClose, onSubmit, initialData }) {
-  const [productname, setProductname] = useState("");
-  const [url, setUrl] = useState("");
-  const [price, setPrice] = useState("");
-  const [category, setCategory] = useState("");
-  const [description, setDescription] = useState("");
-  const [image, setImage] = useState("");
 
-  // 🔁 When modal opens with data, prefill all fields
+export default function Modal({
+  show,
+  onClose,
+  onSubmit,
+  initialData,
+  fields,
+}) {
+  const [formData, setFormData] = useState({});
+
   useEffect(() => {
     if (initialData) {
-      setProductname(initialData.productname || "");
-      setUrl(initialData.url || "");
-      setPrice(initialData.price || "");
-      setCategory(initialData.category || "");
-      setDescription(initialData.description || "");
-      setImage(initialData.image || "");
+      setFormData(initialData);
     } else {
-      // if there's no initialData, reset all inputs (optional)
-      setProductname("");
-      setUrl("");
-      setPrice("");
-      setCategory("");
-      setDescription("");
-      setImage("");
+      const emptyData = {};
+      fields.forEach((field) => (emptyData[field.name] = ""));
+      setFormData(emptyData);
     }
-  }, [initialData, show]);
+  }, [initialData, fields]);
+
+  const handleChange = (e, name) => {
+    setFormData({ ...formData, [name]: e.target.value });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const productData = {
-      productname,
-      url,
-      price,
-      category,
-      description,
-      image,
-      _id: initialData?._id, // if present, used to update product
-    };
-
-    onSubmit(productData);
+    onSubmit({ ...formData, _id: initialData?._id });
     onClose();
   };
 
-  // Close modal on ESC
   useEffect(() => {
     const handleEsc = (e) => e.key === "Escape" && onClose();
     window.addEventListener("keydown", handleEsc);
@@ -58,57 +42,50 @@ export default function Modal({ show, onClose, onSubmit, initialData }) {
   return (
     <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-zinc-400 rounded-2xl shadow-lg p-6 w-full max-w-md relative">
-        <h2 className="text-xl font-semibold mb-4">Update Product</h2>
+        <h2 className="text-xl font-semibold mb-4">
+          {initialData ? "Edit Product" : "Add Product"}
+        </h2>
         <form onSubmit={handleSubmit} className="space-y-4 flex flex-col">
-          <PanelInput
-            type="text"
-            icon={InformationCircleIcon}
-            value={productname}
-            onChangeHandler={(e) => setProductname(e.target.value)}
-          />
-          <PanelInput
-            name="Url"
-            type="text"
-            icon={InformationCircleIcon}
-            value={url}
-            onChangeHandler={(e) => setUrl(e.target.value)}
-          />
-          <PanelInput
-            name="Price"
-            type="text"
-            icon={InformationCircleIcon}
-            value={price}
-            onChangeHandler={(e) => setPrice(e.target.value)}
-          />
-          <PanelInput
-            name="Image"
-            type="text"
-            icon={InformationCircleIcon}
-            value={image}
-            onChangeHandler={(e) => setImage(e.target.value)}
-          />
+          {fields.map((field) => {
+            if (field.type === "textarea") {
+              return (
+                <textarea
+                  key={field.name}
+                  name={field.name}
+                  placeholder={field.label}
+                  value={formData[field.name] || ""}
+                  onChange={(e) => handleChange(e, field.name)}
+                  className="w-full placeholder:text-gray-400 outline-0 text-gray-900 dark:text-white bg-darker text-sm py-3.5 pr-3.5 pl-13 rounded opacity-60"
+                />
+              );
+            }
 
+            return (
+              <PanelInput
+                key={field.name}
+                type={field.type}
+                name={field.label}
+                icon={InformationCircleIcon}
+                value={formData[field.name] || ""}
+                onChangeHandler={(e) => handleChange(e, field.name)}
+              />
+            );
+          })}
+
+          {/* Example of a fixed dropdown */}
           <label className="inline-block text-sm text-white font-semibold mb-3">
             Category
           </label>
           <select
+            value={formData.category || ""}
+            onChange={(e) => handleChange(e, "category")}
             className="w-full placeholder:text-gray-400 outline-0 text-gray-900 dark:text-white bg-darker text-sm py-3.5 pr-3.5 pl-13 rounded opacity-60"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
           >
             <option value="">-- Select a Category --</option>
             <option value="clothe">clothe</option>
             <option value="digital">digital</option>
             <option value="food">food</option>
           </select>
-
-          <textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            name="description"
-            placeholder="Description"
-            className="w-full placeholder:text-gray-400 outline-0 text-gray-900 dark:text-white bg-darker text-sm py-3.5 pr-3.5 pl-13 rounded opacity-60"
-          />
 
           <div className="flex justify-end space-x-2">
             <button

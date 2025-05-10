@@ -14,11 +14,13 @@ function AddCategoryForm({ onCategoryAdded }) {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
       title: "",
       slug: "",
+      is_active: false
     },
     resolver: yupResolver(categorySchema),
   });
@@ -40,6 +42,7 @@ function AddCategoryForm({ onCategoryAdded }) {
         button: "Ok",
       });
       onCategoryAdded();
+      reset();
     } else {
       swal({
         title: data.message,
@@ -66,6 +69,12 @@ function AddCategoryForm({ onCategoryAdded }) {
             icon={GlobeAsiaAustraliaIcon}
             error={errors.slug?.message}
             {...register("slug")}
+          />
+          <PanelInput
+            placeholder="Active category to show"
+            type="checkbox"
+            error={errors.is_active?.message}
+            {...register("is_active")}
           />
         </div>
         <div className="flex-center flex-wrap mt-8 md:pr-5">

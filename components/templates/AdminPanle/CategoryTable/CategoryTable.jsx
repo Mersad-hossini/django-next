@@ -91,7 +91,7 @@ function CategoryTable({ categories, onDelete }) {
               Url
             </th>
             <th className="p-4 text-left text-sm font-medium text-white">
-              Account verification
+              Active
             </th>
             <th className="p-4 text-left text-sm font-medium text-white">
               Actions

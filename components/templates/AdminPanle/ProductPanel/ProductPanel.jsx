@@ -6,7 +6,7 @@ function ProductPanel() {
   const [products, setProducts] = useState([]);
 
   const fetchProducts = async () => {
-    const res = await fetch("https://api.mander.ir/product/products/", {
+    const res = await fetch("https://api.mander.ir/admin-panel/products/", {
       method: "GET",
       credentials: "include",
       headers: {

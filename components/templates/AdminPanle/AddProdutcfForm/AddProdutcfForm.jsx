@@ -18,6 +18,7 @@ function AddProductForm({ onProductAdded }) {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -27,6 +28,7 @@ function AddProductForm({ onProductAdded }) {
       image: "",
       categories: "",
       description: "",
+      is_active: false,
     },
     resolver: yupResolver(productSchema),
   });
@@ -39,13 +41,14 @@ function AddProductForm({ onProductAdded }) {
     formData.append("price", productInfos.price);
     formData.append("slug", productInfos.slug);
     formData.append("title", productInfos.title);
+    formData.append("is_active", productInfos.is_active);
 
     if (productInfos.image && productInfos.image[0]) {
       formData.append("image", productInfos.image[0]);
     }
 
     try {
-      const res = await fetch("https://api.mander.ir/product/products/", {
+      const res = await fetch("https://api.mander.ir/admin-panel/products/", {
         method: "POST",
         credentials: "include",
         body: formData,
@@ -60,6 +63,7 @@ function AddProductForm({ onProductAdded }) {
           button: "Ok",
         });
         onProductAdded();
+        reset()
       } else {
         swal({
           title: data.message || "Error occurred",
@@ -152,6 +156,12 @@ function AddProductForm({ onProductAdded }) {
               )}
               <TagIcon className="absolute left-3.5 top-0 bottom-0 my-auto size-6 text-slate-500 dark:text-gray-400" />
             </div>
+            <PanelInput
+              placeholder="Active product to show"
+              type="checkbox"
+              error={errors.is_active?.message}
+              {...register("is_active")}
+            />
           </div>
           <div>
             <label

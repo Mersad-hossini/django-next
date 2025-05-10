@@ -11,6 +11,7 @@ const categorySchema = Yup.object().shape({
       /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
       "URL name must be (lowercase, dashes only)"
     ),
+  is_active: Yup.boolean().notRequired(),
 });
 
 export default categorySchema;

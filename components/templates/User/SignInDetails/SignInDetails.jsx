@@ -1,4 +1,3 @@
-import EnterWithGoogle from "@/components/modules/EnterWithGoogle/EnterWithGoogle";
 import FormTitle from "@/components/modules/FormTitle/FormTitle";
 import InputForm from "@/components/modules/InputForm/InputForm";
 import { LockClosedIcon, UserCircleIcon } from "@heroicons/react/24/outline";

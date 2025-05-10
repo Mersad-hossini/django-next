@@ -29,7 +29,7 @@ const changeUserInfosSchema = Yup.object({
     })
     .test(
       "imageDimensions",
-      "Image must be between 100x100 and 500x500 pixels",
+      "Image must be between 500x500 and 1000x1000 pixels",
       (value) =>
         new Promise((resolve) => {
           if (!value || value.length === 0) return resolve(true);
@@ -42,7 +42,7 @@ const changeUserInfosSchema = Yup.object({
             img.onload = () => {
               const { width, height } = img;
               resolve(
-                width >= 100 && height >= 100 && width <= 500 && height <= 500
+                width >= 500 && height >= 500 && width <= 1000 && height <= 1000
               );
             };
             img.onerror = () => resolve(false);

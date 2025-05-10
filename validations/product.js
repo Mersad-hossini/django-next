@@ -82,6 +82,8 @@ const productSchema = Yup.object().shape({
     .required("Description is required")
     .min(10, "Description must be at least 10 characters long")
     .max(1000, "Description must not exceed 1000 characters"),
+
+  is_active: Yup.boolean().notRequired(),
 });
 
 export default productSchema;

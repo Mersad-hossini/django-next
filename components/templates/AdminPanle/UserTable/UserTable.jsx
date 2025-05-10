@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-  PencilSquareIcon,
   TrashIcon,
   NoSymbolIcon,
 } from "@heroicons/react/24/outline";

@@ -14,7 +14,7 @@ function ProductTable({ products, onDelete }) {
 
   const handleModalSubmit = async (updatedProduct) => {
     try {
-      const res = await fetch(`/api/product/${selectedProduct._id}`, {
+      const res = await fetch(`https://api.mander.ir/admin-panel/products/${selectedProduct._id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedProduct),
@@ -48,7 +48,7 @@ function ProductTable({ products, onDelete }) {
     if (confirm) {
       try {
         const res = await fetch(
-          `https://api.mander.ir/product/products/${id}/`,
+          `https://api.mander.ir/admin-panel/products/${id}/`,
           {
             method: "DELETE",
             credentials: "include", 

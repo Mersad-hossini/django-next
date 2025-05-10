@@ -39,6 +39,7 @@ function UserEditDetails() {
   const {
     register: passwordChange,
     handleSubmit: handlePasswordSubmit,
+    reset: resetPasswordInput,
     formState: { errors: passwordErrors },
   } = useForm({
     defaultValues: {
@@ -66,7 +67,7 @@ function UserEditDetails() {
       const res = await fetch("https://api.mander.ir/user/user-profile", {
         method: "PUT",
         credentials: "include",
-        body: formData, 
+        body: formData,
       });
 
       const data = await res.json();
@@ -93,7 +94,7 @@ function UserEditDetails() {
         buttons: "Ok",
       });
     } finally {
-      setIsUpdating(false); 
+      setIsUpdating(false);
     }
   };
 
@@ -119,6 +120,7 @@ function UserEditDetails() {
           icon: "success",
           buttons: "Ok",
         });
+        resetPasswordInput();
       } else {
         swal({
           title: data.message || "Something went wrong!",
