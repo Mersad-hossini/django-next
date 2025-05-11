@@ -15,6 +15,7 @@ import { useForm } from "react-hook-form";
 
 function AddProductForm({ onProductAdded }) {
   const [allCategories, setAllCategories] = useState([]);
+  const [mainCategory, setMainCategory] = useState([]);
   const {
     register,
     handleSubmit,
@@ -36,12 +37,13 @@ function AddProductForm({ onProductAdded }) {
   const addNewProductHandler = async (productInfos) => {
     const formData = new FormData();
 
-    formData.append("categories", JSON.stringify(productInfos.categories));
     formData.append("description", productInfos.description || "");
     formData.append("price", productInfos.price);
     formData.append("slug", productInfos.slug);
     formData.append("title", productInfos.title);
     formData.append("is_active", productInfos.is_active);
+
+    formData.append("category_ids", mainCategory?.id);
 
     if (productInfos.image && productInfos.image[0]) {
       formData.append("image", productInfos.image[0]);
@@ -63,7 +65,7 @@ function AddProductForm({ onProductAdded }) {
           button: "Ok",
         });
         onProductAdded();
-        reset()
+        reset();
       } else {
         swal({
           title: data.message || "Error occurred",
@@ -82,7 +84,7 @@ function AddProductForm({ onProductAdded }) {
   };
 
   const getAllCategories = async () => {
-    const res = await fetch("https://api.mander.ir/product/product-category/", {
+    const res = await fetch("https://api.mander.ir/admin-panel/products-category/", {
       method: "GET",
       credentials: "include",
       headers: {
@@ -139,13 +141,21 @@ function AddProductForm({ onProductAdded }) {
             </label>
             <div id="categories" className="relative">
               <select
+                defaultValue={"-1"}
                 className="w-full placeholder:text-gray-400 outline-0 text-gray-900 dark:text-white bg-darker text-sm py-3.5 pr-3.5 pl-13 rounded opacity-60"
                 {...register("categories")}
+                onChange={(e) => {
+                  const selectedId = parseInt(e.target.value);
+                  const selectedCategory = allCategories.find(
+                    (cat) => cat.id === selectedId
+                  );
+                  setMainCategory(selectedCategory);
+                }}
               >
                 <option value="-1">-- Select a Category --</option>
-                {allCategories?.map((allCategory) => (
-                  <option key={allCategory.id} value={allCategory.title}>
-                    {allCategory.title}
+                {allCategories?.map((cat) => (
+                  <option key={cat.id} value={cat.id}>
+                    {cat.title}
                   </option>
                 ))}
               </select>

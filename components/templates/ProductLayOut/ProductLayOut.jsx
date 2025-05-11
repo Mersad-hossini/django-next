@@ -5,7 +5,6 @@ import React from "react";
 
 function ProductLayOut({ product }) {
   const { addToCart, loading } = useAddToCart();
-  
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -32,7 +31,7 @@ function ProductLayOut({ product }) {
             <div className="flex flex-col sm:flex-row justify-between items-center mt-5 gap-3">
               <button
                 className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded transition  cursor-pointer"
-                onClick={() => addToCart(product._id)}
+                onClick={() => addToCart(product.id)}
                 disabled={loading}
               >
                 {loading ? "Adding..." : "Add to cart"}{" "}

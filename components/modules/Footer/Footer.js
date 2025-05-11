@@ -9,7 +9,7 @@ function Footer() {
         </div>
         <hr className="my-6 sm:mx-auto border-gray-700 lg:my-8" />
         <span className="block text-sm sm:text-center text-gray-400">
-          © 2023 Online Shop. All Rights Reserved.
+          © 2025 Online Shop. All Rights Reserved.
         </span>
       </div>
     </div>

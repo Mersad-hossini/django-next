@@ -1,4 +1,5 @@
 import Footer from "@/components/modules/Footer/Footer";
+import ProductBox from "@/components/modules/ProductBox/ProductBox";
 import ProductSection from "@/components/modules/ProductSection/ProductSection";
 import PublicNavbar from "@/components/modules/PublicNavbar/PublicNavbar";
 import useSearchHandler from "@/hocks/useSearchHandler/useSearchHandler";
@@ -8,10 +9,10 @@ import React from "react";
 function SearchLayOut() {
   const router = useRouter();
   const { query } = router.query;
-  
 
-  const { searchResults, loading, error } = useSearchHandler((query ?? "").trim());
-
+  const { searchResults, loading, error } = useSearchHandler(
+    (query ?? "").trim()
+  );
   return (
     <div className="flex flex-col min-h-screen">
       <PublicNavbar />

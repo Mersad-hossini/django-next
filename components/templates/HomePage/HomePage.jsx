@@ -1,25 +1,18 @@
-import ProductBox from "@/components/modules/ProductBox/ProductBox";
-import PublicNavbar from "@/components/modules/PublicNavbar/PublicNavbar";
 import React, { useEffect, useState } from "react";
-import { MagnifyingGlassCircleIcon } from "@heroicons/react/24/outline";
-import ProductSection from "@/components/modules/ProductSection/ProductSection";
 import { useRouter } from "next/router";
+import PublicNavbar from "@/components/modules/PublicNavbar/PublicNavbar";
 import Footer from "@/components/modules/Footer/Footer";
+import ProductSection from "@/components/modules/ProductSection/ProductSection";
+import { MagnifyingGlassCircleIcon } from "@heroicons/react/24/outline";
 
 function HomePage() {
   const [products, setProducts] = useState([]);
-  const router = useRouter();
   const [searchValue, setSearchValue] = useState("");
+  const router = useRouter();
 
   useEffect(() => {
     getAllProducts();
   }, []);
-
-  const searchHandler = (e) => {
-    e.preventDefault();
-    if (!searchValue.trim()) return;
-    router.push(`/search?query=${searchValue}`);
-  };
 
   const getAllProducts = async () => {
     try {
@@ -36,7 +29,13 @@ function HomePage() {
     }
   };
 
-  const categories = [...new Set(products.map((p) => p.category))];
+  const searchHandler = (e) => {
+    e.preventDefault();
+    if (!searchValue.trim()) return;
+    router.push(`/search?query=${searchValue}`);
+  };
+
+  const categories = [...new Set(products.map((p) => p.categories[0].title))];
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -71,29 +70,19 @@ function HomePage() {
           </div>
         </div>
 
-        {products.length > 0 ? (
-          <>
-            {categories.map((category, index) => (
-              <ProductSection
-                key={index}
-                title={category}
-                category={category}
-                products={products}
-              />
-            ))}
-          </>
+        {/* نمایش دسته‌بندی‌ها و محصولات */}
+        {categories.length > 0 ? (
+          categories.map((category, index) => (
+            <ProductSection
+              key={index}
+              title={category}
+              category={category}
+              products={products}
+            />
+          ))
         ) : (
-          <div className="grid grid-rows-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 mx-3 mt-2">
-            {Array(4)
-              .fill()
-              .map((_, index) => (
-                <ProductBox
-                  key={index}
-                  description=""
-                  price=""
-                  image="/images/default-Image.png"
-                />
-              ))}
+          <div className="text-center text-lg text-gray-600">
+            Loading products...
           </div>
         )}
       </main>

@@ -26,7 +26,7 @@ function AddCategoryForm({ onCategoryAdded }) {
   });
 
   const addNewCategoryHandler = async (categoryInfos) => {
-    const res = await fetch("https://api.mander.ir/product/product-category/", {
+    const res = await fetch("https://api.mander.ir/admin-panel/products-category/", {
       method: "POST",
       credentials: "include",
       headers: {

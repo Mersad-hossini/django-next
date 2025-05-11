@@ -1,11 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
 import swal from "sweetalert";
 import Modal from "@/components/modules/Modal/Modal";
 
-function ProductTable({ products, onDelete }) {  
+function ProductTable({ products, onDelete, fetchProducts }) {
   const [showModal, setShowModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [allCategories, setAllCategories] = useState([]);
+
+  const formFields = [
+    { name: "title", label: "Product Title", type: "text" },
+    { name: "slug", label: "URL", type: "text" },
+    { name: "price", label: "Price", type: "number" },
+    { name: "image", label: "Image", type: "file" },
+    { name: "categories", label: "categories", type: "select" },
+    { name: "description", label: "Description", type: "textarea" },
+    { name: "is_active", label: "Is Active", type: "checkbox" },
+  ];
 
   const handleEditClick = (product) => {
     setSelectedProduct(product);
@@ -13,25 +24,46 @@ function ProductTable({ products, onDelete }) {
   };
 
   const handleModalSubmit = async (updatedProduct) => {
+    console.log(updatedProduct);
+
+    const formData = new FormData();
+
+    // افزودن فیلدهای معمولی به FormData
+    for (const key in updatedProduct) {
+      if (updatedProduct.hasOwnProperty(key)) {
+        formData.append(key, updatedProduct[key]);
+      }
+    }
+
+    // افزودن تصویر در صورت وجود
+    if (updatedProduct.image && updatedProduct.image[0]) {
+      formData.append("image", updatedProduct.image[0]);
+    }
+
     try {
-      const res = await fetch(`https://api.mander.ir/admin-panel/products/${selectedProduct._id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedProduct),
-      });
+      const res = await fetch(
+        `https://api.mander.ir/admin-panel/products/${selectedProduct.id}/`,
+        {
+          method: "PUT",
+          credentials: "include",
+          body: formData,
+        }
+      );
 
       const result = await res.json();
-
       if (res.ok) {
         swal("Updated!", result.message || "Product updated.", "success");
         setShowModal(false);
-        setSelectedProduct(null);
-        onDelete?.(); // You might rename this to `onUpdate` for clarity
+        fetchProducts();
       } else {
-        swal("Error", result.message, "error");
+        swal(
+          "Error",
+          result.message || "Error while updating product",
+          "error"
+        );
       }
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
+      console.error("Error submitting form data:", error);
       swal("Error", "Something went wrong!", "error");
     }
   };
@@ -51,18 +83,18 @@ function ProductTable({ products, onDelete }) {
           `https://api.mander.ir/admin-panel/products/${id}/`,
           {
             method: "DELETE",
-            credentials: "include", 
+            credentials: "include",
           }
         );
 
         if (res.ok) {
-          const result = await res.json().catch(() => ({})); 
+          const result = await res.json().catch(() => ({}));
           swal(
             "Deleted!",
             result.message || "Product deleted successfully",
             "success"
           );
-          onDelete?.();
+          onDelete?.(); // ارسال داده‌های جدید به والد
         } else {
           const result = await res.json().catch(() => ({}));
           swal(
@@ -77,6 +109,23 @@ function ProductTable({ products, onDelete }) {
       }
     }
   };
+
+  const fetchCategories = async () => {
+    const res = await fetch("https://api.mander.ir/admin-panel/products-category/", {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const categoryData = await res.json();
+
+    setAllCategories(categoryData);
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
 
   return (
     <div className="overflow-x-auto m-3">
@@ -108,7 +157,7 @@ function ProductTable({ products, onDelete }) {
           </tr>
         </thead>
         <tbody className="whitespace-nowrap">
-          {products?.map((product, index) => (
+          {products.map((product, index) => (
             <tr key={product.id} className="even:bg-blue-50">
               <td className="p-4 text-[15px] text-slate-600 font-medium">
                 {index + 1}
@@ -123,25 +172,19 @@ function ProductTable({ products, onDelete }) {
                 {Number(product.price).toLocaleString()}
               </td>
               <td className="p-4 text-[15px] text-slate-600 font-medium">
-                {product.image.substring(42)}
+                {product.image}
               </td>
               <td className="p-4 text-sm text-slate-600 font-medium">
                 {product.is_active ? (
-                  <>
-                    <span className="p-1 text-white text-xl rounded-sm">
-                      ✅
-                    </span>
-                  </>
+                  <span className="p-1 text-white text-xl rounded-sm">✅</span>
                 ) : (
-                  <>
-                    <span className="p-1 text-white text-xl rounded-sm">
-                      ❌
-                    </span>
-                  </>
+                  <span className="p-1 text-white text-xl rounded-sm">❌</span>
                 )}
               </td>
               <td className="p-4 text-[15px] text-slate-600 font-medium">
-                {product.categories.title}
+                {product.categories[0]?.title
+                  ? product.categories[0].title
+                  : "-"}
               </td>
               <td className="p-4">
                 <div className="flex items-center gap-2">
@@ -169,6 +212,8 @@ function ProductTable({ products, onDelete }) {
           }}
           onSubmit={handleModalSubmit}
           initialData={selectedProduct}
+          fields={formFields}
+          allCategories={allCategories}
         />
       )}
     </div>

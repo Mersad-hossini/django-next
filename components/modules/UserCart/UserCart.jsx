@@ -1,33 +1,16 @@
-import React, { useRef, useEffect, useState, useCallback } from "react";
+import React, { useRef, useEffect } from "react";
 import ProductItem from "../ProductItem/ProductItem";
-import Link from "next/link";
+import { useUser } from "@/context/UserContext";
 
 function UserCart({ isShopingCartOpen, onClose }) {
   const cartRef = useRef(null);
-  const [cartItems, setCartItems] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  const fetchCartProducts = useCallback(async () => {
-    try {
-      setLoading(true);
-      const res = await fetch("/api/cart/cart-product");
-      if (res.ok) {
-        const cartData = await res.json();
-        const items = cartData.data?.items || [];
-        setCartItems(items);
-      }
-    } catch (error) {
-      console.error("Error fetching cart items:", error);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  const { order, fetchOrder, loading } = useUser(); // assume loading is provided from context
 
   useEffect(() => {
     if (isShopingCartOpen) {
-      fetchCartProducts();
+      fetchOrder(); // Fetch order when cart opens
     }
-  }, [isShopingCartOpen, fetchCartProducts]);
+  }, [isShopingCartOpen, fetchOrder]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -46,20 +29,13 @@ function UserCart({ isShopingCartOpen, onClose }) {
   }, [isShopingCartOpen, onClose]);
 
   useEffect(() => {
-    const handleCartChanged = () => fetchCartProducts();
+    const handleCartChanged = () => fetchOrder();
     window.addEventListener("cart-changed", handleCartChanged);
 
     return () => {
       window.removeEventListener("cart-changed", handleCartChanged);
     };
-  }, [fetchCartProducts]);
-
-  const totalAmount = Array.isArray(cartItems)
-    ? cartItems.reduce(
-        (acc, item) => acc + item.product.price * item.quantity,
-        0
-      )
-    : 0;
+  }, [fetchOrder]);
 
   return (
     <div
@@ -73,7 +49,7 @@ function UserCart({ isShopingCartOpen, onClose }) {
         <div className="flex items-center justify-between px-5 py-4 bg-sky-50 dark:bg-sky-500/10 text-sky-500 mb-5 rounded-t-2xl">
           <span className="font-danaBold">My shopping cart</span>
           <span className="font-danaDemiBold text-slate-500">
-            {cartItems.length} product{cartItems.length > 1 ? "s" : ""}
+            {order?.length || 0} product{(order?.length || 0) > 1 ? "s" : ""}
           </span>
         </div>
         <div className="cart-body pl-5 pr-2.5 mr-2.5 space-y-4 max-h-62 overflow-y-auto direction-ltr child:direction-rtl">
@@ -83,15 +59,13 @@ function UserCart({ isShopingCartOpen, onClose }) {
                 Loading...
               </span>
             </div>
-          ) : cartItems.length > 0 ? (
-            cartItems.map((cartItem) => (
+          ) : Array.isArray(order) && order.length > 0 ? (
+            order.map((cartItem) => (
               <ProductItem
-                key={cartItem._id}
+                key={cartItem.id}
                 {...cartItem}
                 onRemove={(productId) => {
-                  setCartItems((prev) =>
-                    prev.filter((i) => i.product._id !== productId)
-                  );
+                  fetchOrder(); // بازخوانی بعد از حذف
                 }}
               />
             ))
@@ -103,27 +77,6 @@ function UserCart({ isShopingCartOpen, onClose }) {
             </div>
           )}
         </div>
-        {totalAmount > 0 && (
-          <div className="mt-5 px-5 pb-5">
-            <div className="flex items-center text-white justify-between border-t border-neutral-200 dark:border-white/10 pt-4 mb-5">
-              <span>Amount payable:</span>
-              <div className="flex items-center gap-x-1">
-                <span className="text-lg font-danaDemiBold">
-                  {totalAmount.toLocaleString()}{" "}
-                  <span className="font-danaMedium text-base">$</span>
-                </span>
-              </div>
-            </div>
-            <div className="w-full">
-              <Link
-                href="/cart"
-                className="w-full inline-block text-center bg-green-500 hover:bg-green-600 transition-colors text-white rounded-md p-2"
-              >
-                View shopping cart
-              </Link>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );

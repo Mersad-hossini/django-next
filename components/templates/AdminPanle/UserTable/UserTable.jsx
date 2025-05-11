@@ -1,25 +1,34 @@
 import React, { useEffect, useState } from "react";
-import {
-  TrashIcon,
-  NoSymbolIcon,
-} from "@heroicons/react/24/outline";
+import { TrashIcon, NoSymbolIcon } from "@heroicons/react/24/outline";
 import swal from "sweetalert";
 
 function UserTable() {
   const [users, setUsers] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     getAllUsers();
   }, []);
-
   const getAllUsers = async () => {
-    const res = await fetch("https://api.mander.ir/admin-panel/users", {
-      method: "GET",
-      credentials: "include",
-    });    
-    
-    const users = await res.json();
-    setUsers(users);
+    try {
+      setIsLoading(true);
+      const res = await fetch("https://api.mander.ir/admin-panel/users", {
+        method: "GET",
+        credentials: "include",
+      });
+
+      const users = await res.json();
+
+      if (res.ok) {
+        setUsers(users);
+      } else {
+        console.error("خطا در دریافت کاربران:", users);
+      }
+    } catch (err) {
+      console.error("خطای اتصال:", err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const removeUser = async (id) => {
@@ -61,7 +70,11 @@ function UserTable() {
     }
   };
 
-  return (
+  return isLoading ? (
+    <div className="flex justify-center items-center h-32">
+      <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
+    </div>
+  ) : (
     <div className="overflow-x-auto m-3">
       <table className="min-w-full bg-white">
         <thead className="bg-gray-800 whitespace-nowrap">

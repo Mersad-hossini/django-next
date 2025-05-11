@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import PanelInput from "../PanelForm/PanelInput";
-
+import { useForm } from "react-hook-form";
+import { InformationCircleIcon } from "@heroicons/react/24/solid";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 export default function Modal({
   show,
@@ -8,36 +10,21 @@ export default function Modal({
   onSubmit,
   initialData,
   fields,
+  allCategories, 
 }) {
-  const [formData, setFormData] = useState({});
-
+  const { register, handleSubmit, reset, setValue } = useForm({
+    defaultValues: initialData || {},
+  });
+  
   useEffect(() => {
     if (initialData) {
-      setFormData(initialData);
-    } else {
-      const emptyData = {};
-      fields.forEach((field) => (emptyData[field.name] = ""));
-      setFormData(emptyData);
+      reset(initialData);
+      if (initialData?.categories && initialData.categories.length > 0) {
+        // تنظیم مقدار پیش‌فرض با استفاده از اولین عنوان دسته‌بندی
+        setValue("category_ids", initialData.categories[0].id);
+      }
     }
-  }, [initialData, fields]);
-
-  const handleChange = (e, name) => {
-    setFormData({ ...formData, [name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit({ ...formData, _id: initialData?._id });
-    onClose();
-  };
-
-  useEffect(() => {
-    const handleEsc = (e) => e.key === "Escape" && onClose();
-    window.addEventListener("keydown", handleEsc);
-    return () => window.removeEventListener("keydown", handleEsc);
-  }, [onClose]);
-
-  if (!show) return null;
+  }, [initialData, reset, setValue]);
 
   return (
     <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
@@ -45,47 +32,56 @@ export default function Modal({
         <h2 className="text-xl font-semibold mb-4">
           {initialData ? "Edit Product" : "Add Product"}
         </h2>
-        <form onSubmit={handleSubmit} className="space-y-4 flex flex-col">
-          {fields.map((field) => {
-            if (field.type === "textarea") {
+        <form
+          className="space-y-4 flex flex-col"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          {/* رندر داینامیک فیلدها */}
+          {fields.map((field, index) => {
+            if (field.type === "select" && field.name === "categories") {
               return (
-                <textarea
-                  key={field.name}
+                <div key={index}>
+                  <label className="inline-block text-sm text-white font-semibold mb-3">
+                    {field.label}
+                  </label>
+                  <select
+                    {...register("category_ids")} // استفاده از name 'category_ids'
+                    className="w-full placeholder:text-gray-400 outline-0 text-gray-900 dark:text-white bg-darker text-sm py-3.5 pr-3.5 pl-13 rounded opacity-60"
+                  >
+                    {allCategories?.map((category) => (
+                      <option key={category.id} value={category.id}>
+                        {category.title}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              );
+            }
+
+            if (field.type === "checkbox") {
+              return (
+                <PanelInput
+                  key={index}
+                  type="checkbox"
                   name={field.name}
                   placeholder={field.label}
-                  value={formData[field.name] || ""}
-                  onChange={(e) => handleChange(e, field.name)}
-                  className="w-full placeholder:text-gray-400 outline-0 text-gray-900 dark:text-white bg-darker text-sm py-3.5 pr-3.5 pl-13 rounded opacity-60"
+                  {...register(field.name)}
                 />
               );
             }
 
+            // برای فیلدهای text و سایر فیلدها
             return (
               <PanelInput
-                key={field.name}
+                key={index}
                 type={field.type}
-                name={field.label}
+                name={field.name}
+                placeholder={field.label}
                 icon={InformationCircleIcon}
-                value={formData[field.name] || ""}
-                onChangeHandler={(e) => handleChange(e, field.name)}
+                {...register(field.name)}
               />
             );
           })}
-
-          {/* Example of a fixed dropdown */}
-          <label className="inline-block text-sm text-white font-semibold mb-3">
-            Category
-          </label>
-          <select
-            value={formData.category || ""}
-            onChange={(e) => handleChange(e, "category")}
-            className="w-full placeholder:text-gray-400 outline-0 text-gray-900 dark:text-white bg-darker text-sm py-3.5 pr-3.5 pl-13 rounded opacity-60"
-          >
-            <option value="">-- Select a Category --</option>
-            <option value="clothe">clothe</option>
-            <option value="digital">digital</option>
-            <option value="food">food</option>
-          </select>
 
           <div className="flex justify-end space-x-2">
             <button

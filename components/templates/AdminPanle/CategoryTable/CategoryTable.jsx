@@ -7,15 +7,21 @@ function CategoryTable({ categories, onDelete }) {
   const [showModal, setShowModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
 
+  const formFields = [
+    { name: "title", label: "Product Title", type: "text" },
+    { name: "slug", label: "URL Slug", type: "text" },
+    { name: "is_active", label: "Is Active", type: "checkbox" },
+  ];
+
   const handleEditClick = (categories) => {
     setSelectedCategory(categories);
     setShowModal(true);
   };
 
-  const handleModalSubmit = async (updatedCategoty) => {
+  const handleModalSubmit = async (updatedCategoty) => {    
     try {
       const res = await fetch(
-        `https://api.mander.ir/product/product-category/${id}/`,
+        `https://api.mander.ir/product/product-category/${selectedCategory.id}/`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -26,7 +32,7 @@ function CategoryTable({ categories, onDelete }) {
       const result = await res.json();
 
       if (res.ok) {
-        swal("Updated!", result.message || "Product updated.", "success");
+        swal("Updated!", result.message || "category updated.", "success");
         setShowModal(false);
         setSelectedCategory(null);
         onDelete?.(); // You might rename this to `onUpdate` for clarity
@@ -129,7 +135,7 @@ function CategoryTable({ categories, onDelete }) {
                 <div className="flex items-center gap-2">
                   <PencilSquareIcon
                     className="size-6 text-blue-500 cursor-pointer"
-                    onClick={() => handleEditClick(categories)}
+                    onClick={() => handleEditClick(category)}
                   />
                   <TrashIcon
                     className="size-6 text-red-500 cursor-pointer"
@@ -151,6 +157,7 @@ function CategoryTable({ categories, onDelete }) {
           }}
           onSubmit={handleModalSubmit}
           initialData={selectedCategory}
+          fields={formFields}
         />
       )}
     </div>

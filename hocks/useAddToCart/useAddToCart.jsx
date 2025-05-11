@@ -1,52 +1,56 @@
+import { useUser } from "@/context/UserContext";
 import { useState } from "react";
 import swal from "sweetalert";
 
 const useAddToCart = () => {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const { user } = useUser();
 
   const addToCart = async (id) => {
+    if (!user) {
+      swal({
+        title: "Please log in first",
+        icon: "warning",
+        button: "OK",
+      });
+      return;
+    }
+
     setLoading(true);
     try {
-      const res = await fetch("/api/cart/cart-product", {
+      const res = await fetch("https://api.mander.ir/order/order-detail/", {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ productId: id }),
+        body: JSON.stringify({ quantity: 1, product: id }),
       });
 
-      const data = await res.json();      
+      const data = await res.json();
 
       if (!res.ok) {
-        setError(data.message || "Error adding to cart");
-        swal({
-          title: data.message || "Error adding to cart",
-          icon: "error",
-          button: "Ok",
-        });
-        setLoading(false);
-        return;
+        throw new Error(data?.message || "Failed to add to cart");
       }
 
       swal({
-        title: data.message || "Product successfully added to cart",
+        title: "Added to cart!",
         icon: "success",
-        button: "Ok",
+        button: "OK",
       });
-      setLoading(false);
     } catch (error) {
-      setError("Something went wrong");
       swal({
         title: "Something went wrong",
+        text: error.message,
         icon: "error",
-        button: "Ok",
+        button: "OK",
       });
+    } finally {
       setLoading(false);
     }
   };
 
-  return { addToCart, loading, error };
+  return { addToCart, loading };
 };
 
 export default useAddToCart;

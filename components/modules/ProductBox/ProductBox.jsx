@@ -1,3 +1,4 @@
+import { useUser } from "@/context/UserContext";
 import useAddToCart from "@/hocks/useAddToCart/useAddToCart";
 import Link from "next/link";
 import React from "react";
@@ -5,19 +6,29 @@ import swal from "sweetalert";
 
 function ProductBox({ id, title, image, description, price }) {
   const { addToCart, loading } = useAddToCart();
+  const { user } = useUser(); // دریافت وضعیت کاربر
 
   const isValidProduct = id && title && price;
 
   const handleAddToCart = async () => {
+    if (!user) {
+      swal({
+        title: "Please log in to add to cart",
+        icon: "warning",
+        timer: 1500,
+      });
+      return; // اگر کاربر وارد نشده باشد، دکمه به سبد خرید اضافه نمی‌شود
+    }
+
     try {
       await addToCart(id);
-      swal.fire({
+      swal({
         title: "Added to cart!",
         icon: "success",
         timer: 1500,
       });
     } catch (error) {
-      swal.fire({
+      swal({
         title: "Failed to add to cart",
         text: error.message || "Something went wrong",
         icon: "error",
@@ -69,7 +80,7 @@ function ProductBox({ id, title, image, description, price }) {
                 <button
                   className="bg-blue-400 text-white p-1 rounded-sm cursor-pointer disabled:opacity-50"
                   onClick={handleAddToCart}
-                  disabled={loading || !id}
+                  disabled={loading || !user} // غیرفعال کردن دکمه اگر کاربر وارد نشده باشد
                 >
                   {loading ? "Adding..." : "Add to cart"}
                 </button>

@@ -22,6 +22,19 @@ const changeUserInfosSchema = Yup.object({
     .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g, "Invalid email format"),
 
   avatar: Yup.mixed()
+    .test("fileFormat", "Image format is not allowed", (value) => {
+      if (!value || !value[0]) return true; // Skip if no file selected
+      const allowedTypes = [
+        "image/jpeg",
+        "image/jpg",
+        "image/png",
+        "image/gif",
+        "image/bmp",
+        "image/tiff",
+        "image/webp",
+      ];
+      return allowedTypes.includes(value[0].type);
+    })
     .test("fileSize", "Image size must be less than 1MB", (value) => {
       if (!value || value.length === 0) return true;
       const file = value[0];
@@ -32,24 +45,26 @@ const changeUserInfosSchema = Yup.object({
       "Image must be between 500x500 and 1000x1000 pixels",
       (value) =>
         new Promise((resolve) => {
-          if (!value || value.length === 0) return resolve(true);
+          if (!value || !value[0]) return resolve(true);
 
           const file = value[0];
-          const reader = new FileReader();
+          const img = new Image();
+          const objectUrl = URL.createObjectURL(file);
 
-          reader.onload = (e) => {
-            const img = new Image();
-            img.onload = () => {
-              const { width, height } = img;
-              resolve(
-                width >= 500 && height >= 500 && width <= 1000 && height <= 1000
-              );
-            };
-            img.onerror = () => resolve(false);
-            img.src = e.target.result;
+          img.onload = () => {
+            const { width, height } = img;
+            URL.revokeObjectURL(objectUrl);
+            resolve(
+              width >= 500 && height >= 500 && width <= 1000 && height <= 1000
+            );
           };
 
-          reader.readAsDataURL(file);
+          img.onerror = () => {
+            URL.revokeObjectURL(objectUrl);
+            resolve(false);
+          };
+
+          img.src = objectUrl;
         })
     ),
 });
