@@ -1,6 +1,6 @@
 import React from "react";
 
-function CategoryTitle({title}) {
+function CategoryTitle({ title }) {
   return (
     <div className="flex items-center mx-5 mt-4">
       <p className="text-gray-700 text-lg whitespace-nowrap">{title}</p>

@@ -6,7 +6,7 @@ import swal from "sweetalert";
 
 function ProductBox({ id, title, image, description, price }) {
   const { addToCart, loading } = useAddToCart();
-  const { user } = useUser(); // دریافت وضعیت کاربر
+  const { user } = useUser();
 
   const isValidProduct = id && title && price;
 
@@ -17,7 +17,7 @@ function ProductBox({ id, title, image, description, price }) {
         icon: "warning",
         timer: 1500,
       });
-      return; // اگر کاربر وارد نشده باشد، دکمه به سبد خرید اضافه نمی‌شود
+      return;
     }
 
     try {
@@ -80,7 +80,7 @@ function ProductBox({ id, title, image, description, price }) {
                 <button
                   className="bg-blue-400 text-white p-1 rounded-sm cursor-pointer disabled:opacity-50"
                   onClick={handleAddToCart}
-                  disabled={loading || !user} // غیرفعال کردن دکمه اگر کاربر وارد نشده باشد
+                  disabled={loading || !user}
                 >
                   {loading ? "Adding..." : "Add to cart"}
                 </button>

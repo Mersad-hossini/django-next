@@ -12,7 +12,7 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
-import signUpSchema from "@/validations/SignUp";
+import signUpSchema from "@/validations/signUp";
 
 function SignUpDetails() {
   const {
@@ -50,7 +50,7 @@ function SignUpDetails() {
         },
         body: JSON.stringify(userInfos),
       });
-      
+
       const responseData = await res.json();
 
       if (res.status === 201) {

@@ -42,4 +42,4 @@ function PanelInput({ icon: Icon, placeholder, type, error, ...reset }) {
   );
 }
 
-export default PanelInput
+export default PanelInput;

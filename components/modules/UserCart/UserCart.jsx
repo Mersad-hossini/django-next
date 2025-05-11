@@ -4,11 +4,11 @@ import { useUser } from "@/context/UserContext";
 
 function UserCart({ isShopingCartOpen, onClose }) {
   const cartRef = useRef(null);
-  const { order, fetchOrder, loading } = useUser(); // assume loading is provided from context
+  const { order, fetchOrder, loading } = useUser(); 
 
   useEffect(() => {
     if (isShopingCartOpen) {
-      fetchOrder(); // Fetch order when cart opens
+      fetchOrder(); 
     }
   }, [isShopingCartOpen, fetchOrder]);
 
@@ -64,8 +64,8 @@ function UserCart({ isShopingCartOpen, onClose }) {
               <ProductItem
                 key={cartItem.id}
                 {...cartItem}
-                onRemove={(productId) => {
-                  fetchOrder(); // بازخوانی بعد از حذف
+                onRemove={() => {
+                  fetchOrder(); 
                 }}
               />
             ))

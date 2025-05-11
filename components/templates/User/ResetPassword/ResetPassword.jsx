@@ -17,7 +17,7 @@ function ResetPassword({ resetCode }) {
     handleSubmit,
     formState: { errors, isValid },
   } = useForm({
-    mode: "onChange", 
+    mode: "onChange",
     defaultValues: {
       password: "",
     },
@@ -42,7 +42,7 @@ function ResetPassword({ resetCode }) {
         }
       );
 
-      const userData = await res.json();      
+      const userData = await res.json();
 
       if (res.ok) {
         swal("Password changed successfully.", "", "success");

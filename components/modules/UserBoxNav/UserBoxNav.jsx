@@ -155,7 +155,6 @@ function UserBoxNav() {
                 </>
               ) : (
                 <>
-                  {" "}
                   <Link
                     href="/user/signin"
                     className="flex items-center justify-between text-white px-2.5 h-12 rounded-xl hover:text-white hover:bg-green-500 transition-colors"
@@ -164,7 +163,7 @@ function UserBoxNav() {
                       <ArrowDownCircleIcon className="w-6 h-6" />
                       Sign In /Signup
                     </span>
-                  </Link>{" "}
+                  </Link>
                 </>
               )}
             </div>

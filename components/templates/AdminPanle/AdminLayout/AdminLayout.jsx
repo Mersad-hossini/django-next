@@ -10,7 +10,7 @@ function AdminLayout({ children }) {
       <AdminPanleSidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
       <section className="w-full">
         <AdminPanleNavbar setIsOpen={setIsSidebarOpen} />
-      <main>{children}</main>
+        <main>{children}</main>
       </section>
     </section>
   );

@@ -7,7 +7,7 @@ function categoryPanel() {
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchCategories = async () => {
-    setIsLoading(true); // فعال کردن لودینگ
+    setIsLoading(true);
     try {
       const res = await fetch(
         "https://api.mander.ir/product/product-category/",

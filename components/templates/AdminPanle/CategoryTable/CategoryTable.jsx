@@ -18,7 +18,7 @@ function CategoryTable({ categories, onDelete }) {
     setShowModal(true);
   };
 
-  const handleModalSubmit = async (updatedCategoty) => {    
+  const handleModalSubmit = async (updatedCategoty) => {
     try {
       const res = await fetch(
         `https://api.mander.ir/product/product-category/${selectedCategory.id}/`,
@@ -35,7 +35,7 @@ function CategoryTable({ categories, onDelete }) {
         swal("Updated!", result.message || "category updated.", "success");
         setShowModal(false);
         setSelectedCategory(null);
-        onDelete?.(); // You might rename this to `onUpdate` for clarity
+        onDelete?.(); 
       } else {
         swal("Error", result.message, "error");
       }

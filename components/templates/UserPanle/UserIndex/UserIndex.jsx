@@ -7,7 +7,7 @@ import {
 } from "@heroicons/react/24/outline";
 import InfoBox from "@/components/modules/InfoBox/InfoBox";
 
-function UserIndex() {  
+function UserIndex() {
   return (
     <>
       <div className="flex items-center justify-center flex-wrap gap-10">

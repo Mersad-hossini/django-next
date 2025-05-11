@@ -6,12 +6,12 @@ import UserCart from "../UserCart/UserCart";
 import Link from "next/link";
 import { useUser } from "@/context/UserContext";
 
-function Navbar({ setIsOpen }) {    
+function Navbar({ setIsOpen }) {
   const openSidebar = () => {
     setIsOpen((prev) => !prev);
   };
 
-  const { user, loading } = useUser();
+  const { user } = useUser();
 
   const [isShopingCartOpen, setIsShopingCartOpen] = useState(false);
 

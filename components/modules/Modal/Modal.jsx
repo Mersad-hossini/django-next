@@ -2,25 +2,22 @@ import { useEffect } from "react";
 import PanelInput from "../PanelForm/PanelInput";
 import { useForm } from "react-hook-form";
 import { InformationCircleIcon } from "@heroicons/react/24/solid";
-import { yupResolver } from "@hookform/resolvers/yup";
 
 export default function Modal({
-  show,
   onClose,
   onSubmit,
   initialData,
   fields,
-  allCategories, 
+  allCategories,
 }) {
   const { register, handleSubmit, reset, setValue } = useForm({
     defaultValues: initialData || {},
   });
-  
+
   useEffect(() => {
     if (initialData) {
       reset(initialData);
       if (initialData?.categories && initialData.categories.length > 0) {
-        // تنظیم مقدار پیش‌فرض با استفاده از اولین عنوان دسته‌بندی
         setValue("category_ids", initialData.categories[0].id);
       }
     }
@@ -36,7 +33,6 @@ export default function Modal({
           className="space-y-4 flex flex-col"
           onSubmit={handleSubmit(onSubmit)}
         >
-          {/* رندر داینامیک فیلدها */}
           {fields.map((field, index) => {
             if (field.type === "select" && field.name === "categories") {
               return (
@@ -45,7 +41,7 @@ export default function Modal({
                     {field.label}
                   </label>
                   <select
-                    {...register("category_ids")} // استفاده از name 'category_ids'
+                    {...register("category_ids")}
                     className="w-full placeholder:text-gray-400 outline-0 text-gray-900 dark:text-white bg-darker text-sm py-3.5 pr-3.5 pl-13 rounded opacity-60"
                   >
                     {allCategories?.map((category) => (
@@ -70,7 +66,6 @@ export default function Modal({
               );
             }
 
-            // برای فیلدهای text و سایر فیلدها
             return (
               <PanelInput
                 key={index}

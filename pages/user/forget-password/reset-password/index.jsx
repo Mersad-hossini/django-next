@@ -2,6 +2,7 @@ import React from "react";
 import ResetPassword from "@/components/templates/User/ResetPassword/ResetPassword";
 import { useRouter } from "next/router";
 import AuthGuard from "@/hocks/authGuard/authGuard";
+import Head from "next/head";
 
 function ResetPasswordPage() {
   const router = useRouter();
@@ -15,9 +16,14 @@ function ResetPasswordPage() {
   }
 
   return (
-    <AuthGuard requireAuth={false}>
-      <ResetPassword resetCode={resetPasswordCode} />
-    </AuthGuard>
+    <>
+      <Head>
+        <title>reset password</title>
+      </Head>
+      <AuthGuard requireAuth={false}>
+        <ResetPassword resetCode={resetPasswordCode} />
+      </AuthGuard>
+    </>
   );
 }
 

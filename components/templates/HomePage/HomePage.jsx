@@ -70,7 +70,6 @@ function HomePage() {
           </div>
         </div>
 
-        {/* نمایش دسته‌بندی‌ها و محصولات */}
         {categories.length > 0 ? (
           categories.map((category, index) => (
             <ProductSection

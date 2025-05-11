@@ -4,8 +4,8 @@ import Link from "next/link";
 import { useUser } from "@/context/UserContext";
 
 function AdminPanleNavbar({ setIsOpen }) {
-    const { user } = useUser();  
-  
+  const { user } = useUser();
+
   const openSidebar = () => {
     setIsOpen((prev) => !prev);
   };

@@ -24,7 +24,7 @@ function SignInDetails() {
   });
 
   const router = useRouter();
-  const { storeTokens } = useUser(); 
+  const { storeTokens } = useUser();
 
   const loginHandler = async (data) => {
     try {
@@ -44,7 +44,7 @@ function SignInDetails() {
       });
 
       const userData = await res.json();
-      
+
       if (res.status === 200) {
         storeTokens(userData.access, userData.refresh);
 

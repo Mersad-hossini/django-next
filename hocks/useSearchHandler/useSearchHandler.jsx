@@ -15,9 +15,8 @@ function useSearchHandler(query) {
           `https://api.mander.ir/product/products/?search=${query}`
         );
         if (!res.ok) throw new Error("Search failed");
-        
-        
-        const filteredProducts = await res.json();                
+
+        const filteredProducts = await res.json();
 
         setSearchResults(filteredProducts);
       } catch (err) {

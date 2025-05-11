@@ -22,10 +22,10 @@ function UserTable() {
       if (res.ok) {
         setUsers(users);
       } else {
-        console.error("خطا در دریافت کاربران:", users);
+        console.error("Error receiving users:", users);
       }
     } catch (err) {
-      console.error("خطای اتصال:", err);
+      console.error("Connection error:", err);
     } finally {
       setIsLoading(false);
     }

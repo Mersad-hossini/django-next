@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import swal from "sweetalert";
@@ -9,7 +9,6 @@ function ProductItem({
   total_item_price,
   id,
   product_info,
-  onRemove,
 }) {
   const removeProductFromCart = async (orderId) => {
     try {

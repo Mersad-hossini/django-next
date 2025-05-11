@@ -44,7 +44,7 @@ export default function AuthGuard({
     allowedRoles.length > 0 &&
     !allowedRoles.includes(user?.role)
   ) {
-    router.push("/403"); // صفحه‌ی "دسترسی غیرمجاز"
+    router.push("/403"); 
     return null;
   }
 

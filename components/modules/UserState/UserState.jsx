@@ -9,7 +9,6 @@ function UserState({ title, count, icon: Icon, iconeColor }) {
           {count}
         </span>
       </div>
-      {/* Render the passed icon */}
       <div className="flex items-center justify-center">
         {Icon && <Icon className={`size-10 sm:size-12 ${iconeColor}`} />}
       </div>

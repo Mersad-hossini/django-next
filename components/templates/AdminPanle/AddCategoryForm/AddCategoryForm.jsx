@@ -20,20 +20,23 @@ function AddCategoryForm({ onCategoryAdded }) {
     defaultValues: {
       title: "",
       slug: "",
-      is_active: false
+      is_active: false,
     },
     resolver: yupResolver(categorySchema),
   });
 
   const addNewCategoryHandler = async (categoryInfos) => {
-    const res = await fetch("https://api.mander.ir/admin-panel/products-category/", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(categoryInfos),
-    });
+    const res = await fetch(
+      "https://api.mander.ir/admin-panel/products-category/",
+      {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(categoryInfos),
+      }
+    );
     const data = await res.json();
     if (res.status === 201) {
       swal({

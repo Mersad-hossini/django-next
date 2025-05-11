@@ -24,18 +24,15 @@ function ProductTable({ products, onDelete, fetchProducts }) {
   };
 
   const handleModalSubmit = async (updatedProduct) => {
-    console.log(updatedProduct);
 
     const formData = new FormData();
 
-    // افزودن فیلدهای معمولی به FormData
     for (const key in updatedProduct) {
       if (updatedProduct.hasOwnProperty(key)) {
         formData.append(key, updatedProduct[key]);
       }
     }
 
-    // افزودن تصویر در صورت وجود
     if (updatedProduct.image && updatedProduct.image[0]) {
       formData.append("image", updatedProduct.image[0]);
     }
@@ -94,7 +91,7 @@ function ProductTable({ products, onDelete, fetchProducts }) {
             result.message || "Product deleted successfully",
             "success"
           );
-          onDelete?.(); // ارسال داده‌های جدید به والد
+          onDelete?.();
         } else {
           const result = await res.json().catch(() => ({}));
           swal(
@@ -111,13 +108,16 @@ function ProductTable({ products, onDelete, fetchProducts }) {
   };
 
   const fetchCategories = async () => {
-    const res = await fetch("https://api.mander.ir/admin-panel/products-category/", {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await fetch(
+      "https://api.mander.ir/admin-panel/products-category/",
+      {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const categoryData = await res.json();
 
     setAllCategories(categoryData);
@@ -172,7 +172,7 @@ function ProductTable({ products, onDelete, fetchProducts }) {
                 {Number(product.price).toLocaleString()}
               </td>
               <td className="p-4 text-[15px] text-slate-600 font-medium">
-                {product.image}
+                {product.image.substring(42)}
               </td>
               <td className="p-4 text-sm text-slate-600 font-medium">
                 {product.is_active ? (

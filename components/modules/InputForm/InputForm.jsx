@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 
 function InputForm({ type, placeholder, icon: Icon, ...rest }) {
-  
   const [isVisible, setIsVisible] = useState(false);
 
   // Toggle the password visibility

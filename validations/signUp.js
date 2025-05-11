@@ -8,7 +8,7 @@ const signUpSchema = Yup.object({
 
   phone: Yup.string()
     .required("Phone number is required")
-    .min(11, "Phone number must be at least 11 characters long") 
+    .min(11, "Phone number must be at least 11 characters long")
     .matches(
       /^[0-9+\-()]*$/,
       "Phone number can only contain numbers and valid symbols (+, -, ())"

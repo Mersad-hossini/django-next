@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import InputForm from "@/components/modules/InputForm/InputForm";
 import { EnvelopeIcon } from "@heroicons/react/24/outline";
 import swal from "sweetalert";
-import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import emailSchema from "@/validations/email";
@@ -46,7 +45,6 @@ function ForgetPassword() {
           "A password recovery link has been sent to you.",
           "success"
         );
-
       } else {
         swal("Error", userData.message || "Something went wrong!", "error");
       }
@@ -71,7 +69,6 @@ function ForgetPassword() {
   return (
     <div className="flex-center h-screen bg-zinc-300">
       <div className="w-full sm:w-4/5 mx-auto lg:w-2/3 min-h-[600px] bg-white grid grid-cols-1 md:grid-cols-2 shadow-2xl rounded-md">
-        {/* سمت چپ */}
         <div className="flex flex-col justify-center order-2 md:order-1 p-10">
           <div className="mb-3">
             <FormTitle title="Recover your password" />
@@ -107,7 +104,6 @@ function ForgetPassword() {
           </form>
         </div>
 
-        {/* سمت راست */}
         <div className="order-1 sm:order-1">
           <img
             src="/images/forgetPass.png"

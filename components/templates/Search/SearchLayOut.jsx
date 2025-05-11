@@ -1,5 +1,4 @@
 import Footer from "@/components/modules/Footer/Footer";
-import ProductBox from "@/components/modules/ProductBox/ProductBox";
 import ProductSection from "@/components/modules/ProductSection/ProductSection";
 import PublicNavbar from "@/components/modules/PublicNavbar/PublicNavbar";
 import useSearchHandler from "@/hocks/useSearchHandler/useSearchHandler";

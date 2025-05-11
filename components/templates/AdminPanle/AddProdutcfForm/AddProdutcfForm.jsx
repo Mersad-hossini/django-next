@@ -84,13 +84,16 @@ function AddProductForm({ onProductAdded }) {
   };
 
   const getAllCategories = async () => {
-    const res = await fetch("https://api.mander.ir/admin-panel/products-category/", {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await fetch(
+      "https://api.mander.ir/admin-panel/products-category/",
+      {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const CategoriesData = await res.json();
 
     setAllCategories(CategoriesData);

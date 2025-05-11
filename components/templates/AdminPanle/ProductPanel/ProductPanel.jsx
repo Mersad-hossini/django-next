@@ -8,7 +8,7 @@ function ProductPanel() {
 
   const fetchProducts = async () => {
     try {
-      setIsLoading(true); // ⬅️ فعال کردن حالت لودینگ
+      setIsLoading(true);
       const res = await fetch("https://api.mander.ir/admin-panel/products/", {
         method: "GET",
         credentials: "include",
@@ -21,10 +21,10 @@ function ProductPanel() {
       if (res.ok) {
         setProducts(productData);
       } else {
-        console.error("خطا در دریافت محصولات:", productData);
+        console.error("Error in receiving products:", productData);
       }
     } catch (err) {
-      console.error("خطای شبکه:", err);
+      console.error("Network error:", err);
     } finally {
       setIsLoading(false);
     }
@@ -42,7 +42,11 @@ function ProductPanel() {
           <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
         </div>
       ) : (
-        <ProductTable products={products} fetchProducts={fetchProducts} onDelete={fetchProducts} />
+        <ProductTable
+          products={products}
+          fetchProducts={fetchProducts}
+          onDelete={fetchProducts}
+        />
       )}
     </>
   );

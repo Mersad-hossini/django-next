@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 function PublicNavbar() {
   const [isShopingCartOpen, setIsShopingCartOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
-  const router = useRouter()
+  const router = useRouter();
 
   const shopingCartOpenHandler = () => {
     setIsShopingCartOpen((prevState) => !prevState);

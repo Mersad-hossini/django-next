@@ -9,7 +9,7 @@ function ProductDetails() {
   const router = useRouter();
 
   useEffect(() => {
-    if (!router.isReady) return; // صبر کن تا router آماده شه
+    if (!router.isReady) return;
 
     const { id } = router.query;
 
@@ -38,7 +38,6 @@ function ProductDetails() {
       } catch (err) {
         console.error("Error fetching product:", err.message);
         setError(err.message);
-        // به جای redirect فوری، یه تأخیر کوچیک بذار تا بتونه کاملاً لود شه
         setTimeout(() => {
           router.replace("/NotFound");
         }, 100);
