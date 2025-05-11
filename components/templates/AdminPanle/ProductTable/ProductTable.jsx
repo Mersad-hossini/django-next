@@ -24,16 +24,15 @@ function ProductTable({ products, onDelete, fetchProducts }) {
   };
 
   const handleModalSubmit = async (updatedProduct) => {
-
     const formData = new FormData();
 
     for (const key in updatedProduct) {
-      if (updatedProduct.hasOwnProperty(key)) {
+      if (key !== "image" && updatedProduct.hasOwnProperty(key)) {
         formData.append(key, updatedProduct[key]);
       }
     }
 
-    if (updatedProduct.image && updatedProduct.image[0]) {
+    if (updatedProduct.image && updatedProduct.image[0] instanceof File) {
       formData.append("image", updatedProduct.image[0]);
     }
 
@@ -48,6 +47,7 @@ function ProductTable({ products, onDelete, fetchProducts }) {
       );
 
       const result = await res.json();
+
       if (res.ok) {
         swal("Updated!", result.message || "Product updated.", "success");
         setShowModal(false);

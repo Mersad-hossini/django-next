@@ -82,13 +82,13 @@ export default function Modal({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 bg-gray-300 rounded-md"
+              className="px-4 py-2 bg-gray-300 rounded-md cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-green-500 text-white rounded-md"
+              className="px-4 py-2 bg-green-500 text-white rounded-md cursor-pointer"
             >
               Submit
             </button>
