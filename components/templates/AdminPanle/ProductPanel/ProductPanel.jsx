@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AddProductForm from "../AddProdutcfForm/AddProdutcfForm";
 import ProductTable from "../ProductTable/ProductTable";
+import DualSpinner from "@/components/modules/DualSpinner/DualSpinner";
 
 function ProductPanel() {
   const [products, setProducts] = useState([]);
@@ -38,9 +39,7 @@ function ProductPanel() {
     <>
       <AddProductForm onProductAdded={fetchProducts} />
       {isLoading ? (
-        <div className="flex justify-center items-center h-32">
-          <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
-        </div>
+        <DualSpinner />
       ) : (
         <ProductTable
           products={products}

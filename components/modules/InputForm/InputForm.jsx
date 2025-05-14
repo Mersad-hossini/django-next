@@ -10,7 +10,7 @@ function InputForm({ type, placeholder, icon: Icon, ...rest }) {
   };
 
   return (
-    <div className="border border-gray-200 rounded-sm p-1 w-[64%] flex items-center mb-4">
+    <div className="border border-gray-200 rounded-sm p-1 w-[80%] flex items-center mb-4">
       {Icon && <Icon className="w-6 h-6 text-gray-400" />}
       <input
         type={isVisible || type !== "password" ? "text" : "password"} // Conditionally toggle input type

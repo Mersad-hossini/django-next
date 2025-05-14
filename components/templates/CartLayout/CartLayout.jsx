@@ -65,16 +65,16 @@ function CartLayout() {
 
               {/* Payment Info */}
               <aside className="md:col-span-4 space-y-4">
-                <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden">
+                <div className="bg-gray-800 rounded-xl overflow-hidden">
                   <div className="flex items-center gap-2 px-4 py-3 bg-green-500 text-white">
                     <svg className="w-6 h-6">
                       <use href="#credit-card" />
                     </svg>
                     <span className="font-semibold">Payment</span>
                   </div>
-                  <div className="p-4 space-y-4 text-sm text-gray-700 dark:text-white">
+                  <div className="p-4 space-y-4 text-sm text-white">
                     {/* Price Info */}
-                    <div className="space-y-2 border-b border-gray-200 dark:border-gray-600 pb-4">
+                    <div className="space-y-2 border-b border-gray-600 pb-4">
                       <div className="flex justify-between">
                         <span>Total</span>
                         <span>{totalAmount} $</span>

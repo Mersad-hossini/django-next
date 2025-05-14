@@ -145,7 +145,7 @@ function AddProductForm({ onProductAdded }) {
             <div id="categories" className="relative">
               <select
                 defaultValue={"-1"}
-                className="w-full placeholder:text-gray-400 outline-0 text-gray-900 dark:text-white bg-darker text-sm py-3.5 pr-3.5 pl-13 rounded opacity-60"
+                className="w-full placeholder:text-gray-400 outline-0 text-white bg-darker text-sm py-3.5 pr-3.5 pl-13 rounded opacity-60"
                 {...register("categories")}
                 onChange={(e) => {
                   const selectedId = parseInt(e.target.value);
@@ -167,7 +167,7 @@ function AddProductForm({ onProductAdded }) {
                   {errors.categories?.message}
                 </p>
               )}
-              <TagIcon className="absolute left-3.5 top-0 bottom-0 my-auto size-6 text-slate-500 dark:text-gray-400" />
+              <TagIcon className="absolute left-3.5 top-0 bottom-0 my-auto size-6 text-gray-400" />
             </div>
             <PanelInput
               placeholder="Active product to show"
@@ -189,7 +189,7 @@ function AddProductForm({ onProductAdded }) {
                 {...register("description")}
                 rows="8"
                 cols="8"
-                className="w-full placeholder:text-gray-400 outline-0 text-gray-900 dark:text-white bg-darker text-sm py-3.5 pr-3.5 pl-3 rounded opacity-60"
+                className="w-full placeholder:text-gray-400 outline-0 text-white bg-darker text-sm py-3.5 pr-3.5 pl-3 rounded opacity-60"
               ></textarea>
               {errors.description && (
                 <p className="text-red-500 text-xs mt-1">

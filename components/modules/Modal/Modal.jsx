@@ -42,7 +42,7 @@ export default function Modal({
                   </label>
                   <select
                     {...register("category_ids")}
-                    className="w-full placeholder:text-gray-400 outline-0 text-gray-900 dark:text-white bg-darker text-sm py-3.5 pr-3.5 pl-13 rounded opacity-60"
+                    className="w-full placeholder:text-gray-400 outline-0 text-white bg-darker text-sm py-3.5 pr-3.5 pl-13 rounded opacity-60"
                   >
                     {allCategories?.map((category) => (
                       <option key={category.id} value={category.id}>

@@ -6,7 +6,7 @@ import swal from "sweetalert";
 import React from "react";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
-import signInSchema from "@/validations/SignIn";
+import signInSchema from "@/validations/signIn";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useUser } from "@/context/UserContext";
 
@@ -76,7 +76,7 @@ function SignInDetails() {
     <div className="flex-center h-screen bg-zinc-300">
       <div className="w-full sm:w-4/5 mx-auto lg:w-2/3 min-h-[600px] bg-white grid grid-cols-1 md:grid-cols-2 shadow-2xl rounded-md">
         {/* Left side  */}
-        <div className="order-2 md:order-1 p-10 my-auto">
+        <div className="order-2 md:order-1 my-auto py-3">
           <FormTitle title="Sign In" desc="Welcome Back Traveler" />
 
           <form
@@ -132,7 +132,7 @@ function SignInDetails() {
           </form>
         </div>
 
-        <div className="order-1 sm:order-1">
+        <div className="order-1 sm:order-1 hidden ms:block">
           <img
             src="/images/login.png"
             className="w-full h-full object-cover"

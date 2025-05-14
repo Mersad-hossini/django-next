@@ -59,13 +59,13 @@ function ProductItem({
         >
           {product_info.title}
         </Link>
-        <div className="flex items-center gap-x-2 text-slate-500 dark:text-gray-400">
+        <div className="flex items-center gap-x-2 text-gray-400">
           <span className="font-danaMedium text-sm">{final_price}$</span>
           <span className="font-danaMedium text-sm border border-green-600 bg-green-600 rounded-sm py-0.5 px-1.5 text-white">
             {quantity}
           </span>
         </div>
-        <div className="flex items-center gap-x-2 text-slate-500 dark:text-gray-400">
+        <div className="flex items-center gap-x-2 text-gray-400">
           <span className="font-danaMedium text-sm">{total_item_price}$</span>
         </div>
       </div>

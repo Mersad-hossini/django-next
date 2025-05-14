@@ -1,6 +1,7 @@
 import ProductLayOut from "@/components/templates/ProductLayOut/ProductLayOut";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import DualSpinner from "@/components/modules/DualSpinner/DualSpinner";
 
 function ProductDetails() {
   const [product, setProduct] = useState(null);
@@ -50,11 +51,7 @@ function ProductDetails() {
   }, [router.isReady, router.query]);
 
   if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-32">
-        <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
-      </div>
-    );
+    return <DualSpinner />;
   }
 
   if (error || !product) {

@@ -4,11 +4,15 @@ import PublicNavbar from "@/components/modules/PublicNavbar/PublicNavbar";
 import Footer from "@/components/modules/Footer/Footer";
 import ProductSection from "@/components/modules/ProductSection/ProductSection";
 import { MagnifyingGlassCircleIcon } from "@heroicons/react/24/outline";
+import HomeSidebar from "@/components/modules/HomeSidebar/HomeSidebar";
+import ProductCardLoader from "@/components/modules/ProductCardLoader/ProductCardLoader";
 
 function HomePage() {
   const [products, setProducts] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const router = useRouter();
+
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
     getAllProducts();
@@ -39,7 +43,9 @@ function HomePage() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <PublicNavbar />
+      <PublicNavbar setIsOpen={setIsSidebarOpen} />
+      <HomeSidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
+
       <main className="grow">
         <div className="relative w-full ">
           <img
@@ -80,8 +86,11 @@ function HomePage() {
             />
           ))
         ) : (
-          <div className="text-center text-lg text-gray-600">
-            Loading products...
+          <div className="grid grid-rows-1 mt-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 mx-3 mt-2">
+              <ProductCardLoader />
+              <ProductCardLoader />
+              <ProductCardLoader />
+              <ProductCardLoader />
           </div>
         )}
       </main>

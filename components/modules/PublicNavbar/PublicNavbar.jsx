@@ -7,8 +7,9 @@ import UserBoxNav from "../UserBoxNav/UserBoxNav";
 import UserCart from "../UserCart/UserCart";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { Bars3Icon } from "@heroicons/react/24/solid";
 
-function PublicNavbar() {
+function PublicNavbar({ setIsOpen }) {
   const [isShopingCartOpen, setIsShopingCartOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const router = useRouter();
@@ -23,10 +24,27 @@ function PublicNavbar() {
     router.push(`/search?query=${searchValue}`);
   };
 
+  const openSidebar = () => {
+    setIsOpen((prev) => !prev);
+  };
+
   return (
     <header className="flex items-center justify-between bg-darker py-4.5 sm:py-5 px-4 sm:px-8">
       {/* Left Icons(shoping/light)  */}
       <div className="flex-center gap-x-5">
+        {/* Close Icon For Mobile Start */}
+        <div className="relative open-sidebar md:hidden">
+          <div
+            className="size-13 flex-center rounded-full bg-light-gray text-slate-500 cursor-pointer"
+            onClick={openSidebar}
+          >
+            <Bars3Icon className="size-5.5 sm:size-6 text-white" />
+          </div>
+        </div>
+        {/* Close Icon For Mobile End */}
+
+        
+
         <UserBoxNav />
         {/* Shopping Cart Icon Start */}
         <div className="relative">
@@ -51,7 +69,7 @@ function PublicNavbar() {
           <form className="xl:block">
             <label className="relative h-13 block">
               <input
-                className="bg-gray-100 outline-0 w-full text-slate-500 dark:bg-white/5 dark:text-white text-sm font-danaMedium rounded-full pr-4 pl-12 3xl:w-80 h-full"
+                className="outline-0 w-full bg-white/5 text-white text-sm font-danaMedium rounded-full pr-4 pl-12 3xl:w-80 h-full"
                 type="text"
                 autoComplete="off"
                 placeholder="Search..."
@@ -59,7 +77,7 @@ function PublicNavbar() {
                 onChange={(e) => setSearchValue(e.target.value)}
               />
               <button
-                className="absolute left-4 top-0 bottom-0 w-6 h-6 my-auto text-slate-500 dark:text-white"
+                className="absolute left-4 top-0 bottom-0 w-6 h-6 my-auto text-white"
                 type="submit"
                 onClick={searchHandler}
               >
@@ -75,7 +93,7 @@ function PublicNavbar() {
       <div className="flex-center hidden xs:flex">
         <Link
           href="/"
-          className="flex items-center gap-x-2 xl:pl-6 xl:ml-6 xl:border-l border-l-neutral-200 dark:border-l-white/10"
+          className="flex items-center gap-x-2 xl:pl-6 xl:ml-6 xl:border-l border-l-white/10"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

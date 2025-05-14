@@ -23,14 +23,13 @@ function AdminPanleSidebar({ isOpen, setIsOpen }) {
 
   return (
     <aside
-      className={`navigation fixed md:left-0 bottom-0 top-0 w-67 flex flex-col shrink-0 bg-white dark:bg-darker py-4.5 px-6 z-50 md:z-auto overflow-y-auto transition-all ${
+      className={`navigation fixed md:left-0 bottom-0 top-0 w-67 flex flex-col shrink-0 bg-darker py-4.5 px-6 z-50 md:z-auto overflow-y-auto transition-all ${
         isOpen ? "left-0" : "-left-67"
       }`}
     >
       {/* Moblie links  */}
       <div className="flex md:hidden items-center justify-between mb-8 relative">
         <div className="flex gap-x-3">
-          <div className="switch-theme btn only-icon bg-gray-100 text-slate-500 dark:bg-white/5 dark:text-white"></div>
           <div className="size-13 flex-center rounded-full bg-light-gray text-slate-500 cursor-pointer close-sidebar">
             <XMarkIcon
               className="size-5.5 sm:size-6 text-white"
@@ -65,7 +64,7 @@ function AdminPanleSidebar({ isOpen, setIsOpen }) {
 
       {/* Main Content (wrapped in a grow container)  */}
       <div className="flex-grow">
-        <div className="divide-y divide-neutral-200/50 dark:divide-white/10 child:relative first-child:pt-0 last-child:pb-0 mb-10">
+        <div className="divide-y divide-white/10 child:relative first-child:pt-0 last-child:pb-0 mb-10">
           <div className="py-2 md:py-3">
             <Link
               href="/p-admin"

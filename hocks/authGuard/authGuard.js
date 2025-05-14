@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { useUser } from "@/context/UserContext";
+import DualSpinner from "@/components/modules/DualSpinner/DualSpinner";
 
 export default function AuthGuard({
   children,
@@ -11,11 +12,7 @@ export default function AuthGuard({
   const path = router.pathname;
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center h-32">
-        <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
-      </div>
-    );
+    return <DualSpinner />;
   }
 
   const guestOnlyRoutes = [
@@ -44,7 +41,7 @@ export default function AuthGuard({
     allowedRoles.length > 0 &&
     !allowedRoles.includes(user?.role)
   ) {
-    router.push("/403"); 
+    router.push("/403");
     return null;
   }
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { TrashIcon, NoSymbolIcon } from "@heroicons/react/24/outline";
 import swal from "sweetalert";
+import DualSpinner from "@/components/modules/DualSpinner/DualSpinner";
 
 function UserTable() {
   const [users, setUsers] = useState([]);
@@ -71,9 +72,7 @@ function UserTable() {
   };
 
   return isLoading ? (
-    <div className="flex justify-center items-center h-32">
-      <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
-    </div>
+    <DualSpinner />
   ) : (
     <div className="overflow-x-auto m-3">
       <table className="min-w-full bg-white">

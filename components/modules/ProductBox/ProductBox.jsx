@@ -61,7 +61,7 @@ function ProductBox({ id, title, image, description, price }) {
             {title || "No title"}
           </Link>
         </h3>
-        <p className="text-sm line-clamp-2 text-gray-700 dark:text-gray-400">
+        <p className="text-sm line-clamp-2 text-gray-400">
           {description
             ? `${description.substring(0, 100)}...`
             : "No description"}

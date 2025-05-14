@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AddCategoryForm from "../AddCategoryForm/AddCategoryForm";
 import CategoryTable from "../CategoryTable/CategoryTable";
+import DualSpinner from "@/components/modules/DualSpinner/DualSpinner";
 
 function categoryPanel() {
   const [categories, setCategories] = useState([]);
@@ -36,9 +37,7 @@ function categoryPanel() {
     <>
       <AddCategoryForm onCategoryAdded={fetchCategories} />
       {isLoading ? (
-        <div className="flex justify-center items-center h-32">
-          <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
-        </div>
+        <DualSpinner />
       ) : (
         <CategoryTable categories={categories} onDelete={fetchCategories} />
       )}

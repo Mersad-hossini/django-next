@@ -72,7 +72,7 @@ function ResetPassword({ resetCode }) {
     <div className="flex-center h-screen bg-zinc-300">
       <div className="w-full sm:w-4/5 mx-auto lg:w-2/3 min-h-[600px] bg-white grid grid-cols-1 md:grid-cols-2 shadow-2xl rounded-md">
         {/* Left side  */}
-        <div className="flex flex-col justify-center order-2 md:order-1 p-10">
+        <div className="flex flex-col justify-center order-2 md:order-1 py-3">
           <div className="mb-3">
             <FormTitle title="New password" />
           </div>
@@ -107,7 +107,7 @@ function ResetPassword({ resetCode }) {
         </div>
 
         {/* right side  */}
-        <div className="order-1 sm:order-1">
+        <div className="order-1 sm:order-1 hidden ms:block">
           <img
             src="/images/new-password.png"
             className="w-full h-full object-cover"

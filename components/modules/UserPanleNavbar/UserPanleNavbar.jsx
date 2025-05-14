@@ -18,6 +18,7 @@ function Navbar({ setIsOpen }) {
   const shopingCartOpenHandler = () => {
     setIsShopingCartOpen((prevState) => !prevState);
   };
+  
 
   return (
     <header className="flex items-center justify-between bg-darker py-4.5 sm:py-5 px-4 sm:px-8 mb-5 md:mb-8">
@@ -57,14 +58,14 @@ function Navbar({ setIsOpen }) {
 
       {/* Right Title  */}
       <div className="flex-center">
-        <div className="hidden xl:block text-slate-500 dark:text-gray-400">
+        <div className="hidden xl:block text-gray-400">
           Dear,
           <span className="font-bold"> {user?.username} </span>
           welcome to the user panel🎉
         </div>
         <Link
           href="/"
-          className="flex items-center gap-x-2 xl:pl-6 xl:ml-6 xl:border-l border-l-neutral-200 dark:border-l-white/10"
+          className="items-center gap-x-2 xl:pl-6 xl:ml-6 xl:border-l border-l-white/10 hidden ms:flex"
         >
           <svg
             className="h-12 sm:h-15 w-27 sm:w-34 md:w-52"

@@ -159,7 +159,7 @@ function UserEditDetails() {
   return (
     <>
       {/* Infos(tickets, buying,...)  */}
-      <div className="flex justify-center lg:justify-between flex-wrap gap-y-6 bg-white dark:bg-darker py-5 px-5 sm:px-8 rounded">
+      <div className="flex justify-center lg:justify-between flex-wrap gap-y-6 bg-darker py-5 px-5 sm:px-8 rounded">
         <UserState
           title="Wallet Balance"
           count="0 $"
@@ -237,7 +237,7 @@ function UserEditDetails() {
       <form
         onSubmit={handlePasswordSubmit(updateNewPassword)}
         id="edit-account-password"
-        className="block mt-6 md:mt-10 pt-6 md:pt-10 border-t border-t-neutral-200 dark:border-t-white/10"
+        className="block mt-6 md:mt-10 pt-6 md:pt-10 border-t border-t-white/10"
       >
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 md:gap-6 md:pr-5">
           <PanelInput

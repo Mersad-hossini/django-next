@@ -1,3 +1,4 @@
+import DualSpinner from "@/components/modules/DualSpinner/DualSpinner";
 import Footer from "@/components/modules/Footer/Footer";
 import ProductSection from "@/components/modules/ProductSection/ProductSection";
 import PublicNavbar from "@/components/modules/PublicNavbar/PublicNavbar";
@@ -17,7 +18,7 @@ function SearchLayOut() {
       <PublicNavbar />
 
       <main className="grow">
-        {loading && <p className="text-white text-center mt-4">Searching...</p>}
+        {loading && <DualSpinner />}
         {error && (
           <p className="text-red-500 text-center mt-4">
             Error receiving data...

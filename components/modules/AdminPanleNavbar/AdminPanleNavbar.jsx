@@ -22,7 +22,7 @@ function AdminPanleNavbar({ setIsOpen }) {
             <Bars3Icon className="size-5.5 sm:size-6 text-white" />
           </div>
         </div>
-        <div className="hidden sm:block text-slate-500 dark:text-gray-400">
+        <div className="hidden sm:block text-gray-400">
           Dear,
           <span className="font-bold"> {user?.username} </span>
           welcome to the Admin panel🎉
@@ -33,7 +33,7 @@ function AdminPanleNavbar({ setIsOpen }) {
       <div className="flex-center">
         <Link
           href="/"
-          className="flex items-center gap-x-2 xl:pl-6 xl:ml-6 xl:border-l border-l-neutral-200 dark:border-l-white/10"
+          className="flex items-center gap-x-2 xl:pl-6 xl:ml-6 xl:border-l border-l-white/10"
         >
           <svg
             className="h-12 sm:h-15 w-27 sm:w-34 md:w-52"

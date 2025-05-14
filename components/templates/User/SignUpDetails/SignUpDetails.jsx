@@ -56,7 +56,7 @@ function SignUpDetails() {
       if (res.status === 201) {
         swal({
           title: "Registration successful",
-          text: "Please check your email to verify your account before logging in",
+          text: "Check your email to verify your account.",
           icon: "success",
           button: "Ok",
         });
@@ -84,7 +84,7 @@ function SignUpDetails() {
     <div className="flex-center h-screen bg-zinc-300">
       <div className="w-full sm:w-4/5 mx-auto lg:w-2/3 min-h-[600px] bg-white grid grid-cols-1 md:grid-cols-2 shadow-2xl rounded-md">
         {/* Left side */}
-        <div className="order-2 md:order-1 p-10 my-auto">
+        <div className="order-2 md:order-1 py-3 my-auto">
           <FormTitle title="Sign Up For Free" desc="Welcome Back Traveler" />
 
           <form
@@ -158,7 +158,7 @@ function SignUpDetails() {
         </div>
 
         {/* Right side */}
-        <div className="order-1 sm:order-1">
+        <div className="order-1 sm:order-1 hidden ms:block">
           <img
             src="/images/register.png"
             className="w-full h-full object-cover"

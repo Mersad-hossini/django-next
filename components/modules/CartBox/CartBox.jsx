@@ -34,7 +34,7 @@ function CartBox({ product, quantity, onRemove = () => {} }) {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden">
+    <div className="bg-gray-800 rounded-xl overflow-hidden">
       <div className="flex items-center justify-between px-4 py-3 bg-green-500 text-white">
         <div className="flex items-center gap-2">
           <ShoppingBagIcon className="w-6 h-6" />

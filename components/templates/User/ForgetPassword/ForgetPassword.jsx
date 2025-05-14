@@ -24,7 +24,7 @@ function ForgetPassword() {
 
   const handleForgetPassword = async (data) => {
     if (!data.email) {
-      return swal("خطا", "لطفاً ایمیل خود را وارد کنید.", "error");
+      return swal("Error", "Please enter your email..", "error");
     }
 
     setIsButtonDisabled(true);
@@ -69,7 +69,7 @@ function ForgetPassword() {
   return (
     <div className="flex-center h-screen bg-zinc-300">
       <div className="w-full sm:w-4/5 mx-auto lg:w-2/3 min-h-[600px] bg-white grid grid-cols-1 md:grid-cols-2 shadow-2xl rounded-md">
-        <div className="flex flex-col justify-center order-2 md:order-1 p-10">
+        <div className="flex flex-col justify-center order-2 md:order-1 py-3">
           <div className="mb-3">
             <FormTitle title="Recover your password" />
           </div>
@@ -104,7 +104,7 @@ function ForgetPassword() {
           </form>
         </div>
 
-        <div className="order-1 sm:order-1">
+        <div className="order-1 sm:order-1 hidden ms:block">
           <img
             src="/images/forgetPass.png"
             className="w-full h-full object-cover"

@@ -40,13 +40,13 @@ function UserCart({ isShopingCartOpen, onClose }) {
   return (
     <div
       ref={cartRef}
-      className={`absolute ms:left-0 -left-22 top-full pt-4 z-10 transition-all mt-2 ${
+      className={`absolute md:left-0 -left-22 top-full pt-4 z-10 transition-all mt-2 ${
         isShopingCartOpen ? "block" : "hidden"
       }`}
       id="cart-dropdown"
     >
-      <div className="w-80 xs:w-[362px] bg-white dark:bg-darker rounded-lg">
-        <div className="flex items-center justify-between px-5 py-4 bg-sky-50 dark:bg-sky-500/10 text-sky-500 mb-5 rounded-t-2xl">
+      <div className="w-75 xs:w-[362px] bg-darker rounded-lg">
+        <div className="flex items-center justify-between px-5 py-4 bg-sky-500/10 text-sky-500 mb-5 rounded-t-2xl">
           <span className="font-danaBold">My shopping cart</span>
           <span className="font-danaDemiBold text-slate-500">
             {order?.length || 0} product{(order?.length || 0) > 1 ? "s" : ""}
@@ -55,7 +55,7 @@ function UserCart({ isShopingCartOpen, onClose }) {
         <div className="cart-body pl-5 pr-2.5 mr-2.5 space-y-4 max-h-62 overflow-y-auto direction-ltr child:direction-rtl">
           {loading ? (
             <div className="text-center mb-4">
-              <span className="font-danaMedium text-slate-500 dark:text-gray-400 block pb-5 text-center">
+              <span className="font-danaMedium text-gray-400 block pb-5 text-center">
                 Loading...
               </span>
             </div>
@@ -71,7 +71,7 @@ function UserCart({ isShopingCartOpen, onClose }) {
             ))
           ) : (
             <div className="text-center mb-4">
-              <span className="font-danaMedium text-slate-500 dark:text-gray-400 block pb-5 text-center">
+              <span className="font-danaMedium text-gray-400 block pb-5 text-center">
                 Your shopping cart is empty. :(
               </span>
             </div>

@@ -56,7 +56,7 @@ function UserBoxNav() {
   }, [user]);
 
   return (
-    <div className="relative" ref={dropdownRef}>
+    <div className="relative hidden md:block" ref={dropdownRef}>
       <div
         className="size-13 flex-center rounded-full bg-light-gray text-slate-500 cursor-pointer"
         onClick={toggleDropdown}
@@ -69,10 +69,10 @@ function UserBoxNav() {
           className="absolute left-0 top-full pt-6 z-10 transition-all"
           id="user-profile-dropdown"
         >
-          <div className="w-[278px] bg-white dark:bg-darker p-5 pb-3.5 rounded-lg">
+          <div className="w-[278px] bg-darker p-5 pb-3.5 rounded-lg">
             {/* User Info  */}
             {isLoggedIn && (
-              <div className="flex items-center border-b border-b-neutral-200 dark:border-b-white/5 pb-5 mb-2">
+              <div className="flex items-center border-b border-b-white/5 pb-5 mb-2">
                 <Link href="/my-account" className="shrink-0">
                   <img
                     src={
@@ -138,7 +138,7 @@ function UserBoxNav() {
             )}
 
             {/* Logout And Sign In /Signup Link  */}
-            <div className="mt-2 pt-2 border-t text-white border-t-neutral-200 dark:border-t-white/5">
+            <div className="mt-2 pt-2 border-t text-white border-t-white/5">
               {isLoggedIn ? (
                 <>
                   {" "}
