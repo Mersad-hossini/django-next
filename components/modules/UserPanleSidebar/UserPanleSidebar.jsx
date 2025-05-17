@@ -51,7 +51,7 @@ function UserPanleSidebar({ isOpen, setIsOpen }) {
           <img
             src={
               user?.avatar ||
-              "https://secure.gravatar.com/avatar/ff8c64ea5e4724a9bffca0a348cf405a?s=96&amp;d=mm&amp;r=g"
+              "/images/user.png"
             }
             className="size-full object-cover rounded-full"
             alt="namiko"

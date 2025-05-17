@@ -65,7 +65,7 @@ function Navbar({ setIsOpen }) {
         </div>
         <Link
           href="/"
-          className="items-center gap-x-2 xl:pl-6 xl:ml-6 xl:border-l border-l-white/10 hidden ms:flex"
+          className="items-center gap-x-2 xl:pl-6 xl:ml-6 xl:border-l border-l-white/10"
         >
           <svg
             className="h-12 sm:h-15 w-27 sm:w-34 md:w-52"

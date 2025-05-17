@@ -47,15 +47,17 @@ function AdminPanleSidebar({ isOpen, setIsOpen }) {
         <span className=" text-red-400 font-bold mt-2.5">
           {user?.role === "admin" ? "Admin" : "-"}{" "}
         </span>
-        <div className="hidden md:block relative -mb-11 mx-auto mt-3.5 size-22 p-1 bg-gradient-to-b from-white/40 to-white/0 to-100% shadow-md rounded-full">
-          <img
-            src={
-              user?.avatar ||
-              "https://secure.gravatar.com/avatar/ff8c64ea5e4724a9bffca0a348cf405a?s=96&amp;d=mm&amp;r=g"
-            }
-            className="size-full object-cover rounded-full"
-            alt="namiko"
-          />
+        <div className="md:block relative -mb-11 mx-auto mt-3.5 size-22 p-1 bg-gradient-to-b from-white/40 to-white/0 to-100% shadow-md rounded-full">
+          <Link href="/my-account">
+            <img
+              src={
+                user?.avatar ||
+                "/images/user.png"
+              }
+              className="size-full object-cover rounded-full"
+              alt="namiko"
+            />
+          </Link>
           <div className="absolute left-1 bottom-1 flex items-center justify-center size-6 bg-sky-500 border-2 border-white rounded-full">
             <GlobeAsiaAustraliaIcon className="size-5" />
           </div>
@@ -77,7 +79,7 @@ function AdminPanleSidebar({ isOpen, setIsOpen }) {
               <span className="flex items-center gap-x-2.5 w-full">
                 <HomeIcon className="size-5 md:size-7 text-white font-bold" />
 
-                <span className="text-white font-bold">Home</span>
+                <span className="text-white font-bold">Admin Panel</span>
               </span>
 
               <ChevronLeftIcon className="size-5 md:size-6 text-white font-bold rotate-180" />

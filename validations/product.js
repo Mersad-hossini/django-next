@@ -48,7 +48,7 @@ const productSchema = Yup.object().shape({
     })
     .test(
       "imageDimensions",
-      "Image dimensions must be between 500x500 and 1500x1500 pixels",
+      "Image dimensions must be between 500x500 and 2500x2500 pixels",
       (value) =>
         new Promise((resolve) => {
           if (!value || !value[0]) return resolve(false);
@@ -61,7 +61,7 @@ const productSchema = Yup.object().shape({
             const { width, height } = img;
             URL.revokeObjectURL(objectUrl);
             resolve(
-              width >= 500 && height >= 500 && width <= 1500 && height <= 1500
+              width >= 500 && height >= 500 && width <= 2500 && height <= 2500
             );
           };
 

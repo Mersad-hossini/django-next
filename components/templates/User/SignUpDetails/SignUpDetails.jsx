@@ -13,8 +13,13 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import signUpSchema from "@/validations/signUp";
+import PublicNavbar from "@/components/modules/PublicNavbar/PublicNavbar";
+import Footer from "@/components/modules/Footer/Footer";
+import HomeSidebar from "@/components/modules/HomeSidebar/HomeSidebar";
 
 function SignUpDetails() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -81,91 +86,96 @@ function SignUpDetails() {
   };
 
   return (
-    <div className="flex-center h-screen bg-zinc-300">
-      <div className="w-full sm:w-4/5 mx-auto lg:w-2/3 min-h-[600px] bg-white grid grid-cols-1 md:grid-cols-2 shadow-2xl rounded-md">
-        {/* Left side */}
-        <div className="order-2 md:order-1 py-3 my-auto">
-          <FormTitle title="Sign Up For Free" desc="Welcome Back Traveler" />
+    <div className="bg-zinc-300">
+      <PublicNavbar setIsOpen={setIsSidebarOpen} />
+      <HomeSidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
+      <div className="flex-center my-10 ">
+        <div className="w-full sm:w-4/5 mx-auto lg:w-2/3 min-h-[600px] bg-white grid grid-cols-1 md:grid-cols-2 shadow-2xl rounded-md">
+          {/* Left side */}
+          <div className="order-2 md:order-1 py-3 my-auto">
+            <FormTitle title="Sign Up For Free" desc="Welcome Back Traveler" />
 
-          <form
-            className="flex-center flex-col"
-            onSubmit={handleSubmit(userSubmitHandler)}
-          >
-            <InputForm
-              type="text"
-              placeholder="Username"
-              icon={UserCircleIcon}
-              {...register("username")}
+            <form
+              className="flex-center flex-col"
+              onSubmit={handleSubmit(userSubmitHandler)}
+            >
+              <InputForm
+                type="text"
+                placeholder="Username"
+                icon={UserCircleIcon}
+                {...register("username")}
+              />
+              {errors.username && (
+                <p className="text-red-500 mb-3">{errors.username.message}</p>
+              )}
+
+              <InputForm
+                type="email"
+                placeholder="Email"
+                icon={EnvelopeIcon}
+                {...register("email")}
+              />
+              {errors.email && (
+                <p className="text-red-500 mb-3">{errors.email.message}</p>
+              )}
+
+              <InputForm
+                type="tel"
+                placeholder="Phone"
+                icon={DevicePhoneMobileIcon}
+                {...register("phone")}
+              />
+              {errors.phone && (
+                <p className="text-red-500 mb-3">{errors.phone.message}</p>
+              )}
+
+              <InputForm
+                type="password"
+                placeholder="Password"
+                icon={LockClosedIcon}
+                {...register("password")}
+              />
+              {errors.password && (
+                <p className="text-red-500 mb-3">{errors.password.message}</p>
+              )}
+
+              {/* Sign Up Button */}
+              <div className="mt-3 w-full text-center">
+                <button
+                  type="submit"
+                  className="rounded-sm text-white py-1 bg-blue-500 w-[60%] cursor-pointer hover:bg-blue-600 transition-colors"
+                  disabled={loading}
+                >
+                  {loading ? "Signing Up..." : "Sign Up"}
+                </button>
+              </div>
+
+              {/* Sign In Link */}
+              <div className="mt-7 w-full text-center">
+                <span className="text-sm text-gray-500">
+                  Already have an account?
+                </span>
+                <Link
+                  href="/user/signin"
+                  className="underline text-sm text-sky-600 ml-1"
+                >
+                  Sign In
+                </Link>
+              </div>
+            </form>
+          </div>
+
+          {/* Right side */}
+          <div className="order-1 sm:order-1 hidden ms:block">
+            <img
+              src="/images/register.png"
+              className="w-full h-full object-cover"
+              alt="register image"
             />
-            {errors.username && (
-              <p className="text-red-500 mb-3">{errors.username.message}</p>
-            )}
-
-            <InputForm
-              type="email"
-              placeholder="Email"
-              icon={EnvelopeIcon}
-              {...register("email")}
-            />
-            {errors.email && (
-              <p className="text-red-500 mb-3">{errors.email.message}</p>
-            )}
-
-            <InputForm
-              type="tel"
-              placeholder="Phone"
-              icon={DevicePhoneMobileIcon}
-              {...register("phone")}
-            />
-            {errors.phone && (
-              <p className="text-red-500 mb-3">{errors.phone.message}</p>
-            )}
-
-            <InputForm
-              type="password"
-              placeholder="Password"
-              icon={LockClosedIcon}
-              {...register("password")}
-            />
-            {errors.password && (
-              <p className="text-red-500 mb-3">{errors.password.message}</p>
-            )}
-
-            {/* Sign Up Button */}
-            <div className="mt-3 w-full text-center">
-              <button
-                type="submit"
-                className="rounded-sm text-white py-1 bg-blue-500 w-[60%] cursor-pointer hover:bg-blue-600 transition-colors"
-                disabled={loading}
-              >
-                {loading ? "Signing Up..." : "Sign Up"}
-              </button>
-            </div>
-
-            {/* Sign In Link */}
-            <div className="mt-7 w-full text-center">
-              <span className="text-sm text-gray-500">
-                Already have an account?
-              </span>
-              <Link
-                href="/user/signin"
-                className="underline text-sm text-sky-600 ml-1"
-              >
-                Sign In
-              </Link>
-            </div>
-          </form>
-        </div>
-
-        {/* Right side */}
-        <div className="order-1 sm:order-1 hidden ms:block">
-          <img
-            src="/images/register.png"
-            className="w-full h-full object-cover"
-            alt="register image"
-          />
+          </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

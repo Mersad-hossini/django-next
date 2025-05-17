@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import swal from "sweetalert";
@@ -10,7 +10,13 @@ function ProductItem({
   id,
   product_info,
 }) {
+  const [isDeleting, setIsDeleting] = useState(false);
+
   const removeProductFromCart = async (orderId) => {
+    if (isDeleting) return;
+
+    setIsDeleting(true);
+
     try {
       const res = await fetch(
         `https://api.mander.ir/order/order-detail/${orderId}/`,
@@ -40,6 +46,8 @@ function ProductItem({
         icon: "error",
         buttons: "Ok",
       });
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -69,11 +77,12 @@ function ProductItem({
           <span className="font-danaMedium text-sm">{total_item_price}$</span>
         </div>
       </div>
-      <button className="text-gray-400 hover:text-red-500 ml-auto">
-        <TrashIcon
-          className="size-4 transition-colors cursor-pointer"
-          onClick={() => removeProductFromCart(id)}
-        />
+      <button
+        className="text-gray-400 hover:text-red-500 ml-auto"
+        disabled={isDeleting}
+        onClick={() => removeProductFromCart(id)}
+      >
+        <TrashIcon className="size-4 transition-colors cursor-pointer" />
       </button>
     </div>
   );

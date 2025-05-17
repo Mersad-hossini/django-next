@@ -1,11 +1,13 @@
 import Footer from "@/components/modules/Footer/Footer";
+import HomeSidebar from "@/components/modules/HomeSidebar/HomeSidebar";
 import PublicNavbar from "@/components/modules/PublicNavbar/PublicNavbar";
 import useAddToCart from "@/hocks/useAddToCart/useAddToCart";
 import Head from "next/head";
-import React from "react";
+import React, { useState } from "react";
 
 function ProductLayOut({ product }) {
   const { addToCart, loading } = useAddToCart();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
     <>
@@ -13,7 +15,9 @@ function ProductLayOut({ product }) {
         <title>{product.title}</title>
       </Head>
       <div className="flex flex-col min-h-screen">
-        <PublicNavbar />
+        <PublicNavbar setIsOpen={setIsSidebarOpen} />
+        <HomeSidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
+
         <main className="grow">
           <div className="flex flex-col md:flex-row items-center justify-center gap-6 p-4">
             {/* Image and title section */}

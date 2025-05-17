@@ -265,7 +265,7 @@ function UserEditDetails() {
                 : "bg-green-600 hover:bg-green-700 cursor-pointer"
             }`}
           >
-            EditChange Password
+            Change Password
           </button>
         </div>
       </form>
